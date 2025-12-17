@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<title>Asset Center</title>
+<style>
+    :root {
+      --page-bg: #05070b;
+      --card-main: #0B2F3B;
+      --text-main: #ffffff;
+      --text-muted: #7b8593;
+      --accent: #00e4c0;
+      --accent-soft: #f6b57b;
+      --border-soft: #283341;
+      --bottom-active: #00d1ff;
+      --bottom-bg: #0C0B10;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      min-height: 100vh;
+      background-color: var(--page-bg);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-bar {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      font-weight: 500;
+      color: #ffffffd9;
+    }
+
+    .content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px 12px 80px 12px;
+    }
+
+    .card {
+      border-radius: 18px;
+      background-image: linear-gradient(135deg, var(--card-main) 0%, #08252f 45%, #04151e 100%);
+      border: 1px solid rgba(0, 0, 0, 0.55);
+      margin-bottom: 12px;
+      padding: 18px 18px 20px 18px;
+    }
+
+    .card.system {
+      padding-bottom: 16px;
+    }
+
+    .row-between {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .system-label {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .system-row {
+      font-size: 13px;
+      color: #ffffff;
+      margin-top: 4px;
+    }
+
+    .system-row span.value {
+      font-weight: 500;
+    }
+
+    .assets-title {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .assets-row {
+      display: flex;
+      gap: 16px;
+    }
+
+    .assets-left {
+      flex: 1.15;
+    }
+
+    .assets-amount {
+      font-size: 24px;
+      font-weight: 600;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .token-list {
+      font-size: 12px;
+    }
+
+    .token-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 6px;
+    }
+
+    .token-info {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .token-color {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+    }
+
+    .token-color.usdt { background: #f6b57b; }
+    .token-color.btc { background: #23c1ff; }
+    .token-color.eth { background: #32c784; }
+    .token-color.usdc { background: #fcd39a; }
+    .token-color.trx { background: #f6b57b; }
+
+    .token-name {
+      color: var(--text-muted);
+    }
+
+    .token-percent {
+      color: #ffffffd9;
+    }
+
+    .assets-right {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .donut {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      border: 14px solid #f6b57b;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #111924;
+    }
+
+    .donut-inner {
+      text-align: center;
+      font-size: 12px;
+      color: #d1d5db;
+      line-height: 1.4;
+    }
+
+    .donut-inner strong {
+      display: block;
+      font-size: 13px;
+      color: #ffffffbf;
+    }
+
+    .income-row {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 18px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .income-col span {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .income-col .value {
+      color: #ffffff;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 22px;
+    }
+
+    .action-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: #ffffff;
+    }
+
+    .action-item:not(:last-child) {
+      margin-right: 10px;
+    }
+
+    .action-circle {
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: rgba(7, 11, 20, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .action-circle img {
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .currency-title {
+      margin-top: 18px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .currency-list {
+      margin-top: 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .currency-item {
+      background: #101622;
+      border-radius: 10px;
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .currency-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .currency-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .currency-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .currency-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: #ffffff;
+    }
+
+    .currency-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #ffffff;
+    }
+
+    .currency-amount {
+      font-weight: 500;
+    }
+
+    .currency-arrow {
+      font-size: 16px;
+      transform: translateY(-1px);
+    }
+
+    .currency-row {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .currency-actions {
+      display: none;
+      padding: 4px 2px 0 2px;
+    }
+
+    .currency-actions-inner {
+      display: flex;
+      gap: 8px;
+    }
+
+    .currency-btn {
+      flex: 1;
+      height: 32px;
+      border-radius: 999px;
+      font-size: 13px;
+      border: 1px solid var(--accent);
+      background: transparent;
+      color: #ffffff;
+      outline: none;
+    }
+
+    .currency-btn-primary {
+      background: linear-gradient(90deg, #00d1ff, #00e4c0);
+      border-color: transparent;
+      color: #000000;
+      font-weight: 500;
+    }
+
+    .currency-row.open .currency-actions {
+      display: block;
+    }
+
+
+
+    
+    .bottom-nav {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 8px 0 30px 0;
+      background-color: var(--bottom-bg);
+      box-shadow: 0 -1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .bottom-item {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .bottom-icon-img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+    }
+
+    .bottom-item.power .bottom-icon-img.power-img {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+    }
+
+    .bottom-item.active span {
+      color: var(--bottom-active);
+    }
+
+    @media (min-width: 480px) {
+      .page {
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .bottom-nav {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        max-width: 480px;
+      }
+    } {
+      .page {
+        max-width: 480px;
+        margin: 0 auto;
+      }
+
+      .bottom-nav {
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        max-width: 480px;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+<header class="nav-bar">
+<div>Asset Center</div>
+</header>
+<main class="content">
+<section class="card">
+<div class="assets-title">Total Account Assets</div>
+<div class="assets-row">
+<div class="assets-left">
+<div class="assets-amount assets-usdt-balance" data-asset="USDT">-- USDT</div>
+<div class="token-list">
+<div class="token-row">
+<div class="token-info">
+<span class="token-color usdt"></span>
+<span class="token-name">USDT</span>
+</div>
+<span class="token-percent">100%</span>
+</div>
+<div class="token-row">
+<div class="token-info">
+<span class="token-color btc"></span>
+<span class="token-name">BTC</span>
+</div>
+<span class="token-percent">0.00%</span>
+</div>
+<div class="token-row">
+<div class="token-info">
+<span class="token-color eth"></span>
+<span class="token-name">ETH</span>
+</div>
+<span class="token-percent">0.00%</span>
+</div>
+<div class="token-row">
+<div class="token-info">
+<span class="token-color usdc"></span>
+<span class="token-name">USDC</span>
+</div>
+<span class="token-percent">0.00%</span>
+</div>
+<div class="token-row">
+<div class="token-info">
+<span class="token-color trx"></span>
+<span class="token-name">TRX</span>
+</div>
+<span class="token-percent">0.00%</span>
+</div>
+</div>
+</div>
+<div class="assets-right">
+<div class="donut">
+<div class="donut-inner">
+<strong>Total Assets</strong>
+                ≈$<span class="assets-usd-approx">--</span>
+</div>
+</div>
+</div>
+</div>
+<div class="income-row">
+<div class="income-col">
+<span>Total personal income</span>
+<span class="value assets-total-personal">0 USDT</span>
+<span>Team total income</span>
+<span class="value assets-total-team">0 USDT</span>
+</div>
+<div class="income-col">
+<span>Today's personal income</span>
+<span class="value assets-today-personal">0 USDT</span>
+<span>Today's team income</span>
+<span class="value assets-today-team">0 USDT</span>
+</div>
+</div>
+<div class="actions">
+<div class="action-item">
+<div class="action-circle">
+<img alt="Deposit" src="images/deposit-icon.png"/>
+</div>
+<span>Deposit</span>
+</div>
+<div class="action-item">
+<div class="action-circle">
+<img alt="Withdraw" src="images/withdraw-icon.png"/>
+</div>
+<span>Withdraw</span>
+</div>
+<div class="action-item">
+<div class="action-circle">
+<img alt="Bills" src="images/bills-icon.png"/>
+</div>
+<span>Bills</span>
+</div>
+<div class="action-item">
+<div class="action-circle">
+<img alt="Swap" src="images/swap-icon.png"/>
+</div>
+<span>Swap</span>
+</div>
+</div>
+</section>
+<h2 class="currency-title">Currency List</h2>
+<div class="currency-list">
+<div class="currency-row">
+<div class="currency-item">
+<div class="currency-left">
+<div class="currency-icon">
+<img alt="USDT" src="images/usdt.png"/>
+</div>
+<div class="currency-name">USDT</div>
+</div>
+<div class="currency-right">
+<span class="currency-amount" data-asset="USDT">--</span>
+<button class="currency-arrow-btn" type="button">
+<span class="currency-arrow">^</span>
+</button>
+</div>
+</div>
+<div class="currency-actions">
+<div class="currency-actions-inner">
+<button class="currency-btn currency-btn-primary" data-action="Deposit">Deposit</button>
+<button class="currency-btn" data-action="Withdraw">Withdraw</button>
+<button class="currency-btn" data-action="Bills">Bills</button>
+</div>
+</div>
+</div>
+<div class="currency-row">
+<div class="currency-item">
+<div class="currency-left">
+<div class="currency-icon">
+<img alt="BTC" src="images/btc.png"/>
+</div>
+<div class="currency-name">BTC</div>
+</div>
+<div class="currency-right">
+<span class="currency-amount" data-asset="BTC">0</span>
+<button class="currency-arrow-btn" type="button">
+<span class="currency-arrow">^</span>
+</button>
+</div>
+</div>
+<div class="currency-actions">
+<div class="currency-actions-inner">
+<button class="currency-btn currency-btn-primary" data-action="Deposit">Deposit</button>
+<button class="currency-btn" data-action="Withdraw">Withdraw</button>
+<button class="currency-btn" data-action="Bills">Bills</button>
+</div>
+</div>
+</div>
+<div class="currency-row">
+<div class="currency-item">
+<div class="currency-left">
+<div class="currency-icon">
+<img alt="ETH" src="images/eth.png"/>
+</div>
+<div class="currency-name">ETH</div>
+</div>
+<div class="currency-right">
+<span class="currency-amount" data-asset="ETH">0</span>
+<button class="currency-arrow-btn" type="button">
+<span class="currency-arrow">^</span>
+</button>
+</div>
+</div>
+<div class="currency-actions">
+<div class="currency-actions-inner">
+<button class="currency-btn currency-btn-primary" data-action="Deposit">Deposit</button>
+<button class="currency-btn" data-action="Withdraw">Withdraw</button>
+<button class="currency-btn" data-action="Bills">Bills</button>
+</div>
+</div>
+</div>
+<div class="currency-row">
+<div class="currency-item">
+<div class="currency-left">
+<div class="currency-icon">
+<img alt="USDC" src="images/usdc.png"/>
+</div>
+<div class="currency-name">USDC</div>
+</div>
+<div class="currency-right">
+<span class="currency-amount" data-asset="USDC">0</span>
+<button class="currency-arrow-btn" type="button">
+<span class="currency-arrow">^</span>
+</button>
+</div>
+</div>
+<div class="currency-actions">
+<div class="currency-actions-inner">
+<button class="currency-btn currency-btn-primary" data-action="Deposit">Deposit</button>
+<button class="currency-btn" data-action="Withdraw">Withdraw</button>
+<button class="currency-btn" data-action="Bills">Bills</button>
+</div>
+</div>
+</div>
+<div class="currency-row">
+<div class="currency-item">
+<div class="currency-left">
+<div class="currency-icon">
+<img alt="TRX" src="images/trx.png"/>
+</div>
+<div class="currency-name">TRX</div>
+</div>
+<div class="currency-right">
+<span class="currency-amount" data-asset="TRX">0</span>
+<button class="currency-arrow-btn" type="button">
+<span class="currency-arrow">^</span>
+</button>
+</div>
+</div>
+<div class="currency-actions">
+<div class="currency-actions-inner">
+<button class="currency-btn currency-btn-primary" data-action="Deposit">Deposit</button>
+<button class="currency-btn" data-action="Withdraw">Withdraw</button>
+<button class="currency-btn" data-action="Bills">Bills</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<nav class="bottom-nav">
+<div class="bottom-item tools">
+<img alt="AI-Tools" class="bottom-icon-img" src="images/tools-icon.png"/>
+<span>AI–Tools</span>
+</div>
+<div class="bottom-item chat">
+<img alt="AI Chat" class="bottom-icon-img" src="images/chat-icon.png"/>
+<span>AI Chat</span>
+</div>
+<div class="bottom-item power">
+<img alt="AI Power" class="bottom-icon-img power-img" src="images/ai-power.gif"/>
+<span>AI Power</span>
+</div>
+<div class="bottom-item assets active">
+<img alt="Assets" class="bottom-icon-img" src="images/assets-icon.png"/>
+<span>Assets</span>
+</div>
+<div class="bottom-item mine">
+<img alt="Mine" class="bottom-icon-img" src="images/mine-icon.png"/>
+<span>Mine</span>
+</div>
+</nav>
+</div>
+<script>
+(function(){
+  "use strict";
+  var actionMap = {
+    "Deposit": "deposit.html",
+    "Withdraw": "withdraw.html",
+    "Bills": "bills.html",
+    "Swap": "swap.html"
+  };
+
+  function go(action){
+    var url = actionMap[action];
+    if (url) window.location.href = url;
+  }
+
+  function initActionButtons(){
+    document.querySelectorAll("[data-action]").forEach(function(btn){
+      btn.addEventListener("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        var act = btn.getAttribute("data-action");
+        go(act);
+      });
+    });
+
+    // Top 4 circles (no data-action, rely on visible label)
+    document.querySelectorAll(".actions .action-item").forEach(function(item){
+      item.addEventListener("click", function(){
+        var label = (item.textContent || "").trim();
+        if (label) go(label);
+      });
+    });
+  }
+
+  function initCurrencyToggles(){
+    document.querySelectorAll(".currency-row").forEach(function(row){
+      var toggle = row.querySelector(".currency-arrow-btn");
+      var panel  = row.querySelector(".currency-actions");
+      if (!toggle || !panel) return;
+      // Start closed to match typical behaviour
+      if (!panel.dataset._init) {
+        panel.style.display = "none";
+        panel.dataset._init = "1";
+      }
+      toggle.addEventListener("click", function(e){
+        e.preventDefault();
+        e.stopPropagation();
+        panel.style.display = (panel.style.display === "none") ? "block" : "none";
+      });
+    });
+  }
+
+  function initBottomNav(){
+    var map = {
+      "tools": "ai-tools.html",
+      "chat": "ai-chat.html",
+      "power": "ai-power.html",
+      "assets": "my-assets.html",
+      "mine": "mine.html"
+    };
+    document.querySelectorAll(".bottom-nav .bottom-item").forEach(function(item){
+      item.addEventListener("click", function(){
+        var cls = Array.from(item.classList);
+        var key = cls.find(function(c){ return map[c]; });
+        if (key) window.location.href = map[key];
+      });
+    });
+  }
+
+  function safeInit(){
+    try { initActionButtons(); } catch(e){}
+    try { initCurrencyToggles(); } catch(e){}
+    try { initBottomNav(); } catch(e){}
+     try {
+       var bal = document.querySelector('.assets-usdt-balance');
+       var title = document.querySelector('.assets-title');
+       [bal, title].forEach(function(el){
+         if(!el) return;
+         el.style.cursor = 'pointer';
+         el.addEventListener('click', function(){ window.location.href = 'member.html'; });
+       });
+     } catch(e){}
+
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", safeInit);
+  } else {
+    safeInit();
+  }
+})();
+</script>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="sb-balance.js"></script><script src="common-nav.js"></script></body>
+</html>

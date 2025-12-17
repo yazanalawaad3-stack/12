@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>My Team - EXARAI</title>
+<style>
+    :root {
+      --el-bg-color: #0C0B10;
+      --el-bg-color-1: #17202D;
+      --el-bg-color1: linear-gradient(90deg, #0B2F3B 0%, #101B20 100%);
+      --el-bg-color2: #0E131B;
+      --el-bg-color3: #2D2C2A;
+      --el-bg-color4: #2C2E2F;
+      --el-bg-color5: rgba(0, 0, 0, .45);
+      --el-bg-color6: rgba(0, 0, 0, .45);
+      --el-bg-color7: #3B3B3B;
+      --el-bg-color8: #272727;
+      --el-bg-color9: #3B3B3B;
+      --el-bg-color10: #17202D;
+      --el-bg-color11: rgba(255, 255, 255, .08);
+      --el-bg-color12: #000000;
+      --el-bg-color13: #191919;
+      --el-bg-color14: #17202D;
+      --el-bg-color15: rgba(255, 255, 255, .04);
+      --el-bg-color16: #dbe3f4;
+      --el-bg-color17: #0C0B10;
+      --el-bg-color18: rgba(42, 42, 42, 1);
+      --el-bg-color19: #17202d;
+      --el-bg-color20: #304158;
+      --el-bg-color21: #2a2a2a;
+      --el-bg-color22: rgba(0, 0, 0, 0);
+      --el-bg-color23: #233246;
+      --el-bg-color24: #16202D;
+      --el-bg-color25: linear-gradient(180deg, #17202D 0%, #131B27 100%);
+      --el-bg-color26: linear-gradient(90deg, #0B2F3B 0%, #101B20 100%);
+      --el-bg-color27: #17202D;
+      --el-bg-color28: rgba(255, 255, 255, .1);
+      --el-bg-color30: #212E3F;
+      --el-bg-home-color: #0C0B10;
+
+      --el-bt-color1: rgba(255, 255, 255, .45);
+      --el-bt-color2: rgba(255, 255, 255, .85);
+      --el-bt-color3: #ffffff;
+      --el-bt-color4: rgba(255, 255, 255, .05);
+      --el-bt-color5: rgba(255, 255, 255, .5);
+      --el-bt-color6: rgba(255, 255, 255, .65);
+      --el-bt-color7: rgba(255, 255, 255, .34);
+      --el-bt-color8: rgba(255, 255, 255, .45);
+      --el-bt-color9: rgba(255, 255, 255, .6);
+      --el-bt-color10: rgba(255, 221, 154, .85);
+      --el-bt-color11: rgba(255, 255, 255, .6);
+      --el-bt-color12: rgba(0, 0, 0, .85);
+      --el-bt-color13: rgba(0, 0, 0, 0);
+
+      --el-border-color: #233246;
+      --el-border-color1: rgba(255, 255, 255, .04);
+      --el-border-color2: #17202D;
+      --el-border-color3: #3B3B3B;
+      --el-border-color4: rgba(255, 255, 255, .2);
+
+      --page-bg: var(--el-bg-home-color);
+      --panel-bg: #111111;
+      --panel-deep: #0B0C10;
+      --chip-bg: #1b1d25;
+      --border-subtle: var(--el-border-color);
+      --divider: #323233;
+      --text-main: #ffffff;
+      --text-muted: #8D9095;
+      --accent: #00d1ff;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .app {
+      min-height: 100vh;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .app-header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      height: 48px;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      background: #000000;
+    }
+
+    .back-btn {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.12);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      margin-right: 8px;
+      background: rgba(11, 12, 16, 0.95);
+    }
+
+    .back-arrow {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .app-header-title {
+      flex: 1;
+      text-align: center;
+      margin-right: 40px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--el-bt-color11);
+    }
+
+    .app-main {
+      padding: 16px 16px 24px;
+    }
+
+    .top-tag {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px 4px 4px;
+      border-radius: 999px;
+      background: #111111;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.7);
+      margin-bottom: 14px;
+    }
+
+    .top-tag-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-right: 6px;
+      background: radial-gradient(circle at 30% 0, #ffde8b, #ff6bd0 40%, #5edbff 75%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .top-tag-avatar img {
+      width: 26px;
+      height: 26px;
+      object-fit: contain;
+      display: block;
+    }
+
+    .top-tag span {
+      font-size: 13px;
+      color: var(--el-bt-color11);
+    }
+
+    .summary-card {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .summary-box {
+      flex: 1;
+      border-radius: 12px;
+      padding: 10px 12px;
+      background: var(--el-bg-color26);
+      border: 1px solid var(--el-border-color2);
+    }
+
+    .summary-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+    }
+
+    .summary-value {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--el-bt-color3);
+    }
+
+    .section-title {
+      font-size: 12px;
+      color: var(--accent);
+      margin-bottom: 8px;
+      margin-top: 4px;
+    }
+
+    .generation-card {
+      border-radius: 12px;
+      background-color: var(--panel-bg);
+      border: 1px solid var(--border-subtle);
+      padding: 10px 12px 8px;
+      margin-bottom: 10px;
+    }
+
+    .generation-header {
+      font-size: 13px;
+      margin-bottom: 8px;
+      color: var(--el-bt-color11);
+    }
+
+    .generation-values,
+    .generation-footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .generation-values span {
+      color: var(--el-bt-color11);
+    }
+
+    .generation-values span:first-child {
+      color: var(--accent);
+    }
+
+    .generation-footer {
+      margin-top: 4px;
+      color: var(--text-muted);
+    }
+
+    .generation-footer span {
+      flex: 1;
+      text-align: left;
+    }
+
+    .generation-values span {
+      flex: 1;
+      text-align: left;
+    }
+
+    .generation-values span:nth-child(2),
+    .generation-footer span:nth-child(2) {
+      text-align: center;
+    }
+
+    .generation-values span:nth-child(3),
+    .generation-footer span:nth-child(3) {
+      text-align: right;
+    }
+
+    .section-title-list {
+      font-size: 12px;
+      color: var(--accent);
+      margin: 10px 0 8px;
+    }
+
+    .filter-row {
+      display: flex;
+      gap: 8px;
+      margin: 6px 0 8px;
+    }
+
+    .filter-input {
+      flex: 1;
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--el-border-color2);
+      background-color: var(--panel-bg);
+      display: flex;
+      align-items: center;
+      padding: 0 10px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .filter-input .placeholder {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .filter-input input[type="date"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      border: none;
+      background: transparent;
+      color: transparent;
+      cursor: pointer;
+    }
+
+    .dropdown-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 2px;
+      border-bottom: 1px solid var(--divider);
+      font-size: 12px;
+      color: var(--el-bt-color11);
+    }
+
+    .dropdown-row .chevron {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .collapse-row {
+      text-align: center;
+      padding: 10px 0 4px;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .team-table {
+      width: 100%;
+      border-spacing: 0;
+      border-collapse: collapse;
+      margin-top: 6px;
+      font-size: 11px;
+      color: var(--text-main);
+      background-color: var(--panel-deep);
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .team-table thead {
+      background-color: #111111;
+    }
+
+    .team-table th,
+    .team-table td {
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .team-table th {
+      font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--divider);
+    }
+
+    .team-table tbody tr:nth-child(even) {
+      background-color: var(--panel-deep);
+    }
+
+    .team-table tbody tr:nth-child(odd) {
+      background-color: var(--panel-deep);
+    }
+
+    .team-table td {
+      color: #cacfd8;
+    }
+
+    @media (min-width: 480px) {
+      .app {
+        max-width: 480px;
+        margin: 0 auto;
+        border-left: 1px solid #111;
+        border-right: 1px solid #111;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="app">
+<header class="app-header">
+<a class="back-btn" href="javascript:history.back()">
+<div class="back-arrow"></div>
+</a>
+<div class="app-header-title">My Team</div>
+</header>
+<main class="app-main">
+<div class="top-tag">
+<div class="top-tag-avatar">
+<img alt="My Team" src="images/level-icon.png"/>
+</div>
+<span>My Team</span>
+</div>
+<section class="summary-card">
+<div class="summary-box">
+<div class="summary-label">Team Size</div>
+<div class="summary-value">0/0</div>
+</div>
+<div class="summary-box">
+<div class="summary-label">Today's Earnings/Total revenue</div>
+<div class="summary-value">0/0</div>
+</div>
+</section>
+<div class="section-title">Effective user data</div>
+<section class="generation-card">
+<div class="generation-header">1Generation</div>
+<div class="generation-values">
+<span>0/0</span>
+<span>0%</span>
+<span>0/0</span>
+</div>
+<div class="generation-footer">
+<span>Effective member</span>
+<span>Commission percentage</span>
+<span>Income</span>
+</div>
+</section>
+<section class="generation-card">
+<div class="generation-header">2Generation</div>
+<div class="generation-values">
+<span>0/0</span>
+<span>0%</span>
+<span>0/0</span>
+</div>
+<div class="generation-footer">
+<span>Effective member</span>
+<span>Commission percentage</span>
+<span>Income</span>
+</div>
+</section>
+<section class="generation-card">
+<div class="generation-header">3Generation</div>
+<div class="generation-values">
+<span>0/0</span>
+<span>0%</span>
+<span>0/0</span>
+</div>
+<div class="generation-footer">
+<span>Effective member</span>
+<span>Commission percentage</span>
+<span>Income</span>
+</div>
+</section>
+<div class="section-title-list">Team List</div>
+<div class="filter-row">
+<div class="filter-input">
+<span class="placeholder">Start Time</span>
+</div>
+<div class="filter-input">
+<span class="placeholder">End Time</span>
+</div>
+</div>
+<div class="dropdown-row">
+<span>All Levels</span>
+<span class="chevron">▾</span>
+</div>
+<div class="dropdown-row">
+<span>All Users</span>
+<span class="chevron">▾</span>
+</div>
+<div class="dropdown-row">
+<span>LV.1</span>
+<span class="chevron">▾</span>
+</div>
+<div class="collapse-row">Collapse ▲</div>
+<table class="team-table">
+<thead>
+<tr>
+<th>Account</th>
+<th>ID</th>
+<th>Level</th>
+<th>Registration time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+</main>
+</div>
+<script>
+    (function () {
+      // Toggle collapse of filters + dropdowns
+      var collapseRow = document.querySelector('.collapse-row');
+      var filterRow = document.querySelector('.filter-row');
+      var dropdownRows = document.querySelectorAll('.dropdown-row');
+      if (collapseRow && filterRow && dropdownRows.length) {
+        collapseRow.addEventListener('click', function () {
+          var hidden = filterRow.style.display === 'none';
+          filterRow.style.display = hidden ? 'flex' : 'none';
+          dropdownRows.forEach(function (row) {
+            row.style.display = hidden ? 'flex' : 'none';
+          });
+          collapseRow.textContent = hidden ? 'Collapse ▲' : 'Expand ▼';
+        });
+      }
+
+      // Date inputs inside Start/End boxes
+      var filterInputs = document.querySelectorAll('.filter-row .filter-input');
+      if (filterInputs.length >= 2) {
+        ['start', 'end'].forEach(function (type, idx) {
+          var box = filterInputs[idx];
+          if (!box) return;
+          var span = box.querySelector('.placeholder');
+
+          // create hidden date input that covers box
+          var input = document.createElement('input');
+          input.type = 'date';
+          box.appendChild(input);
+
+          // sync display when user picks a date
+          input.addEventListener('change', function () {
+            if (!span) return;
+            if (input.value) {
+              span.textContent = input.value;
+            } else {
+              span.textContent = type === 'start' ? 'Start Time' : 'End Time';
+            }
+            document.dispatchEvent(new CustomEvent('myteam:filtersChanged'));
+          });
+        });
+      }
+
+      // Dropdowns: first = levels filter, others visual only
+      if (dropdownRows.length) {
+        var levelRow = dropdownRows[0];
+        var levelOptions = ['All Levels', 'LV.0', 'LV.1', 'LV.2', 'LV.3', 'LV.4', 'LV.5', 'LV.6'];
+
+        levelRow.addEventListener('click', function () {
+          var labelSpan = levelRow.querySelector('span:first-child');
+          if (!labelSpan) return;
+          var current = labelSpan.textContent.trim();
+          var idx = levelOptions.indexOf(current);
+          if (idx === -1) idx = 0;
+          var next = levelOptions[(idx + 1) % levelOptions.length];
+          labelSpan.textContent = next;
+          document.dispatchEvent(new CustomEvent('myteam:filtersChanged'));
+        });
+
+        // other dropdown rows visual toggle only
+        for (var i = 1; i < dropdownRows.length; i++) {
+          (function (row) {
+            row.addEventListener('click', function () {
+              row.classList.toggle('is-open');
+            });
+          })(dropdownRows[i]);
+        }
+      }
+    })();
+  </script>
+
+
+<script>
+    (function () {
+      function apiHeaders() {
+        return {
+          "apikey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95b3dzamptYWVzc3BxaWtudmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MTE4NzcsImV4cCI6MjA4MTM4Nzg3N30.aBo32xNG_dh1QD7NBI4N6jhYFLY42Xyxer2DNXxJi-w",
+          "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95b3dzamptYWVzc3BxaWtudmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MTE4NzcsImV4cCI6MjA4MTM4Nzg3N30.aBo32xNG_dh1QD7NBI4N6jhYFLY42Xyxer2DNXxJi-w",
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        };
+      }
+
+      function fmtDate(ts) {
+        if (!ts) return "-";
+        try {
+          var d = new Date(ts);
+          if (isNaN(d.getTime())) return "-";
+          var yyyy = d.getFullYear();
+          var mm = String(d.getMonth() + 1).padStart(2, '0');
+          var dd = String(d.getDate()).padStart(2, '0');
+          var hh = String(d.getHours()).padStart(2, '0');
+          var mi = String(d.getMinutes()).padStart(2, '0');
+          var ss = String(d.getSeconds()).padStart(2, '0');
+          return yyyy + '-' + mm + '-' + dd + ' ' + hh + ':' + mi + ':' + ss;
+        } catch (e) { return "-"; }
+      }
+
+      function maskPhone(p) {
+        if (!p) return "-";
+        var s = String(p).trim();
+        if (s.length <= 6) return s;
+        return s.slice(0, 3) + "****" + s.slice(-3);
+      }
+
+      function inFilter(ids) {
+        return "in.(" + ids.map(function (id) { return String(id).trim(); }).join(",") + ")";
+      }
+
+      async function fetchUsersByInviterIds(inviterIds) {
+        if (!inviterIds || !inviterIds.length) return [];
+        var url = "https://oyowsjjmaesspqiknvhp.supabase.co" + "/rest/v1/users"
+          + "?select=id,phone,created_at,inviter_id"
+          + "&inviter_id=" + inFilter(inviterIds)
+          + "&order=created_at.desc"
+          + "&limit=1000";
+        var res = await fetch(url, { method: "GET", headers: apiHeaders() });
+        if (!res.ok) return [];
+        var rows = await res.json();
+        return Array.isArray(rows) ? rows : [];
+      }
+
+      function setText(el, text) {
+        if (!el) return;
+        el.textContent = text;
+      }
+
+      function renderSummary(totalAll) {
+        var summaryValues = document.querySelectorAll('.summary-box .summary-value');
+        if (summaryValues.length >= 1) {
+          // shows effective/total in UI, we don't have "effective" field here, so show total/total
+          setText(summaryValues[0], totalAll + "/" + totalAll);
+        }
+      }
+
+      function renderGen(cardIdx, genTotal, percent) {
+        var cards = document.querySelectorAll('.generation-card');
+        var card = cards && cards[cardIdx] ? cards[cardIdx] : null;
+        if (!card) return;
+        var row = card.querySelector('.generation-values');
+        if (!row) return;
+        var spans = row.querySelectorAll('span');
+        if (spans.length < 3) return;
+        spans[0].textContent = genTotal + "/" + genTotal;
+        spans[1].textContent = String(percent) + "%";
+        spans[2].textContent = "0/0";
+      }
+
+      function renderGen1Table(gen1) {
+        var tbody = document.querySelector('.team-table tbody');
+        if (!tbody) return;
+        while (tbody.firstChild) tbody.removeChild(tbody.firstChild);
+
+        if (!gen1 || !gen1.length) {
+          var tr = document.createElement('tr');
+          ['-','-','-','-'].forEach(function (t) {
+            var td = document.createElement('td'); td.textContent = t; tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+          return;
+        }
+
+        gen1.forEach(function (u) {
+          var tr = document.createElement('tr');
+          var shortId = (u.id || '').slice(0, 8) || '-';
+          var cells = [maskPhone(u.phone), shortId, 'LV.1', fmtDate(u.created_at)];
+          cells.forEach(function (t) {
+            var td = document.createElement('td'); td.textContent = t; tr.appendChild(td);
+          });
+          tbody.appendChild(tr);
+        });
+      }
+
+      async function loadTeam() {
+        try {
+          if (!window.SBUser || typeof window.SBUser.getCurrentProfile !== "function") return;
+          var profile = await window.SBUser.getCurrentProfile();
+          if (!profile || !profile.id) return;
+
+          var myId = profile.id;
+
+          var gen1 = await fetchUsersByInviterIds([myId]);
+          var gen1Ids = gen1.map(function (u) { return u.id; }).filter(Boolean);
+
+          var gen2 = gen1Ids.length ? await fetchUsersByInviterIds(gen1Ids) : [];
+          var gen2Ids = gen2.map(function (u) { return u.id; }).filter(Boolean);
+
+          var gen3 = gen2Ids.length ? await fetchUsersByInviterIds(gen2Ids) : [];
+
+          var totalAll = gen1.length + gen2.length + gen3.length;
+
+          renderSummary(totalAll);
+          renderGen(0, gen1.length, 20);
+          renderGen(1, gen2.length, 5);
+          renderGen(2, gen3.length, 3);
+          renderGen1Table(gen1);
+        } catch (e) {
+          try { console.error(e); } catch (_) {}
+        }
+      }
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", loadTeam);
+      } else {
+        loadTeam();
+      }
+    })();
+  </script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="sb-user.js"></script><script src="wallet.js"></script></body>
+</html>

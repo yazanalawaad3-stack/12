@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<title>Log In</title>
+<style>
+    :root {
+      --page-bg: #05070b;
+      --card-bg: #05070b;
+      --field-bg: #17202d;
+      --prefix-bg: #0e131b;
+      --border-color: #343b48;
+      --text-main: #ffffff;
+      --text-muted: #7b8593;
+      --primary-gradient-start: #27C6FF;
+      --primary-gradient-end: #46EEAC;
+      --link-color: #1ea7ff;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      min-height: 100vh;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero img.hero-bg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-button {
+      position: absolute;
+      top: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(5, 10, 18, 0.8);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-button.back {
+      left: 12px;
+    }
+
+    .hero-button.support {
+      right: 12px;
+    }
+
+    .back-arrow {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .support-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .support-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .phone-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .prefix-box {
+      min-width: 96px;
+      height: 48px;
+      border-radius: 8px;
+      padding: 0 12px;
+      background-color: var(--prefix-bg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+    }
+
+    .prefix-box span {
+      display: inline-block;
+      color: #FFFFFF;
+    }
+
+    .arrow-down {
+      width: 8px;
+      height: 8px;
+      border-left: 2px solid #ffffffd9;
+      border-bottom: 2px solid #ffffffd9;
+      transform: rotate(-45deg);
+      margin-left: 6px;
+    }
+
+    .input-field {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      background-color: var(--field-bg);
+      border: 1px solid var(--border-color);
+      padding: 0 16px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+    }
+
+    .password-wrapper {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 44px;
+    }
+
+    
+.toggle-password {
+  position: absolute;
+  top: 50%;
+  right: 14px;
+  transform: translateY(-50%);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(10, 15, 24, 0.8);
+  padding: 0;
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.toggle-password:active {
+  transform: translateY(-50%) scale(0.94);
+}
+
+.toggle-password .eye-icon {
+  width: 14px;
+  height: 14px;
+  display: block;
+}
+
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+    }
+
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    .remember-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
+    }
+
+    .checkbox {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1px solid var(--border-color);
+      background: transparent;
+    }
+
+    .forgot-link {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .forgot-link:active,
+    .forgot-link:focus-visible {
+      text-decoration: underline;
+    }
+
+    
+    
+    
+.login-btn {
+  width: 100%;
+  height: 48px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #000000d9;
+  background: linear-gradient(90deg, #27C6FF 0%, #46EEAC 100%);
+  margin-bottom: 14px;
+  text-align: center;
+  line-height: 48px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+}
+
+.login-btn.login-btn--disabled {
+  background: linear-gradient(90deg, #0B2F3B 0%, #101B20 100%);
+  color: rgba(255, 255, 255, 0.45);
+  opacity: 1;
+  cursor: not-allowed;
+}
+
+.login-btn.login-btn--enabled:active {
+  transform: translateY(1px);
+}
+
+
+
+
+    .login-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(0, 99, 255, 0.35);
+    }
+
+    .terms {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .terms a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .terms a:active,
+    .terms a:focus-visible {
+      text-decoration: underline;
+    }
+
+    .signup {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .signup a {
+      color: var(--link-color);
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    .signup a:active,
+    .signup a:focus-visible {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 480px) {
+      .page {
+        max-width: 480px;
+        margin: 0 auto;
+      }
+    }
+  
+.area-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  z-index: 999;
+}
+
+.area-modal.open {
+  display: block;
+}
+
+.area-modal-mask {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.area-modal-panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #0E131B;
+  border-radius: 16px 16px 0 0;
+  padding: 10px 12px 16px;
+  max-height: 45vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.area-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 4px 8px;
+  font-size: 14px;
+  color: #ffffff;
+}
+
+.area-modal-header-title {
+  font-weight: 500;
+}
+
+.area-close {
+  border: none;
+  outline: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 20px;
+  padding: 0 4px;
+  cursor: pointer;
+}
+
+.area-search {
+  margin: 4px 0 8px;
+}
+
+.area-search-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: #0A0F18;
+  color: #ffffff;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.area-search-input::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.area-list {
+  flex: 1;
+  overflow-y: auto;
+  padding-top: 4px;
+}
+
+.area-section-title {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.5);
+  padding: 4px 4px 6px;
+}
+
+.country-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 10px;
+  font-size: 13px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.country-option:hover {
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.country-option-name {
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.country-option-code {
+  color: rgba(255, 255, 255, 0.65);
+  margin-left: 8px;
+  white-space: nowrap;
+}
+
+@media (min-width: 768px) {
+  .area-modal-panel {
+    left: 50%;
+    transform: translateX(-50%);
+    max-width: 420px;
+    border-radius: 16px;
+  }
+}
+
+  
+    .input-error {
+      border-color: #ff4d4f !important;
+      box-shadow: 0 0 0 1px rgba(255, 77, 79, 0.35);
+    }
+
+    .toast-message {
+      position: fixed;
+      left: 50%;
+      top: 220px;
+      transform: translate(-50%, -10px);
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 77, 79, 0.96);
+      color: #ffffff;
+      font-size: 13px;
+      line-height: 1.4;
+      max-width: 90%;
+      text-align: center;
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .toast-message.toast-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+<header class="hero">
+<img alt="EXARAI background" class="hero-bg" src="images/login-bg-h5.png"/>
+<button class="hero-button back" type="button">
+<span class="back-arrow"></span>
+</button>
+<button class="hero-button support" type="button">
+<span class="support-icon">
+<img alt="Support" src="images/customer-service.png"/>
+</span>
+</button>
+</header>
+<main class="content">
+<h1 class="title">Log In</h1>
+<div class="field">
+<div class="field-label">Phone</div>
+<div class="phone-row">
+<button class="prefix-box" type="button">
+<span>+386</span>
+<span class="arrow-down"></span>
+</button>
+<input autocomplete="tel" class="input-field" placeholder="Enter phone" type="tel"/>
+</div>
+</div>
+<div class="field">
+<div class="field-label">Password</div>
+<div class="password-wrapper">
+<input autocomplete="current-password" class="input-field" placeholder="Your password must be at least 8 characters" type="password"/>
+<button class="toggle-password" type="button"><img alt="Toggle password visibility" class="eye-icon" src="images/password-eye-closed.png"/></button>
+</div>
+</div>
+<div class="options-row">
+<label class="remember-box">
+<span class="checkbox"></span>
+<span>Remember account</span>
+</label>
+<a class="forgot-link" href="#">Forgot Password?</a>
+</div>
+<button class="login-btn" type="button">Log In</button>
+<p class="terms">
+        By logging in, I agree to the TARM
+        <a href="#">Service Agreement</a>
+        and
+        <a href="#">Privacy Policy</a>
+</p>
+<p class="signup">
+        Don't have an account yet?
+        <a href="#">Sign Up</a>
+</p>
+</main>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Supabase is handled in auth.js (ExaAuth)
+
+      var backBtn = document.querySelector('.hero-button.back');
+      if (backBtn) {
+        backBtn.addEventListener('click', function () {
+          if (window.history.length > 1) {
+            window.history.back();
+          } else {
+            window.location.href = 'mine.html';
+          }
+        });
+      }
+
+      var supportBtn = document.querySelector('.hero-button.support');
+      if (supportBtn) {
+        supportBtn.addEventListener('click', function () {
+          window.location.href = 'help-center.html';
+        });
+      }
+
+      var signupLink = document.querySelector('.signup a');
+      if (signupLink) {
+        signupLink.addEventListener('click', function (event) {
+          event.preventDefault();
+          window.location.href = 'signup.html';
+        });
+      }
+
+      var phoneInput = document.querySelector('input[type="tel"]');
+      var passwordInput = document.querySelector('.password-wrapper input');
+      var loginBtn = document.querySelector('.login-btn');
+      var togglePasswordBtn = document.querySelector('.toggle-password');
+
+      var prefixBox = document.querySelector('.prefix-box');
+      var prefixValue = prefixBox ? prefixBox.querySelector('span') : null;
+
+      var areaModal = document.querySelector('.area-modal');
+      var areaMask = document.querySelector('.area-modal-mask');
+      var areaPanel = document.querySelector('.area-modal-panel');
+      var areaList = document.querySelector('.area-list');
+      var areaClose = document.querySelector('.area-close');
+      var areaSearchInput = document.querySelector('.area-search-input');
+
+      var countries = [
+        { name: "Slovenia", code: "+386", common: true },
+        { name: "Panama", code: "+507", common: true },
+        { name: "Syria", code: "+963", common: true },
+        { name: "Republic of Lebanon", code: "+961", common: true },
+        { name: "Cyprus", code: "+357", common: true },
+        { name: "Saudi Arabia", code: "+966", common: true },
+
+        { name: "United Arab Emirates", code: "+971" },
+        { name: "Qatar", code: "+974" },
+        { name: "Kuwait", code: "+965" },
+        { name: "Bahrain", code: "+973" },
+        { name: "Oman", code: "+968" },
+        { name: "Jordan", code: "+962" },
+        { name: "Iraq", code: "+964" },
+        { name: "Turkey", code: "+90" },
+        { name: "Egypt", code: "+20" },
+        { name: "Morocco", code: "+212" },
+        { name: "Algeria", code: "+213" },
+        { name: "Tunisia", code: "+216" },
+        { name: "Libya", code: "+218" },
+        { name: "Yemen", code: "+967" },
+        { name: "United States", code: "+1" },
+        { name: "Canada", code: "+1" },
+        { name: "United Kingdom", code: "+44" },
+        { name: "Germany", code: "+49" },
+        { name: "France", code: "+33" },
+        { name: "Italy", code: "+39" },
+        { name: "Spain", code: "+34" },
+        { name: "Russia", code: "+7" },
+        { name: "India", code: "+91" },
+        { name: "Pakistan", code: "+92" },
+        { name: "Afghanistan", code: "+93" },
+        { name: "Iran", code: "+98" },
+        { name: "China", code: "+86" },
+        { name: "Hong Kong", code: "+852" },
+        { name: "Japan", code: "+81" },
+        { name: "South Korea", code: "+82" },
+        { name: "Singapore", code: "+65" },
+        { name: "Malaysia", code: "+60" },
+        { name: "Indonesia", code: "+62" },
+        { name: "Philippines", code: "+63" },
+        { name: "Thailand", code: "+66" },
+        { name: "Vietnam", code: "+84" },
+        { name: "Australia", code: "+61" },
+        { name: "New Zealand", code: "+64" },
+        { name: "Brazil", code: "+55" },
+        { name: "Argentina", code: "+54" },
+        { name: "Mexico", code: "+52" },
+        { name: "South Africa", code: "+27" },
+        { name: "Nigeria", code: "+234" },
+        { name: "Kenya", code: "+254" },
+        { name: "Ethiopia", code: "+251" },
+        { name: "Sweden", code: "+46" },
+        { name: "Norway", code: "+47" },
+        { name: "Denmark", code: "+45" },
+        { name: "Netherlands", code: "+31" },
+        { name: "Belgium", code: "+32" },
+        { name: "Switzerland", code: "+41" },
+        { name: "Austria", code: "+43" },
+        { name: "Greece", code: "+30" },
+        { name: "Portugal", code: "+351" },
+        { name: "Ireland", code: "+353" }
+      ];
+
+      function buildCountryOptions(list, filter) {
+        if (!areaList) return;
+        areaList.innerHTML = "";
+
+        var q = (filter || "").toLowerCase();
+
+        var common = countries.filter(function (c) {
+          if (!c.common) return false;
+          if (!q) return true;
+          return c.name.toLowerCase().includes(q) || c.code.indexOf(filter) !== -1;
+        });
+
+        var others = countries.filter(function (c) {
+          if (c.common) return false;
+          if (!q) return true;
+          return c.name.toLowerCase().includes(q) || c.code.indexOf(filter) !== -1;
+        });
+
+        function appendSection(title, items) {
+          if (!items.length) return;
+          var titleEl = document.createElement('div');
+          titleEl.className = 'area-section-title';
+          titleEl.textContent = title;
+          areaList.appendChild(titleEl);
+
+          items.forEach(function (c) {
+            var item = document.createElement('div');
+            item.className = 'country-option';
+            var nameSpan = document.createElement('span');
+            nameSpan.className = 'country-option-name';
+            nameSpan.textContent = c.name;
+            var codeSpan = document.createElement('span');
+            codeSpan.className = 'country-option-code';
+            codeSpan.textContent = c.code;
+            item.appendChild(nameSpan);
+            item.appendChild(codeSpan);
+            item.addEventListener('click', function () {
+              if (prefixValue) {
+                prefixValue.textContent = c.code;
+              }
+              closeAreaModal();
+            });
+            areaList.appendChild(item);
+          });
+        }
+
+        appendSection("Commonly used countries", common);
+        appendSection("All countries/regions", others);
+      }
+
+      function openAreaModal() {
+        if (!areaModal) return;
+        areaModal.classList.add('open');
+        if (areaSearchInput) {
+          areaSearchInput.value = "";
+        }
+        buildCountryOptions(countries, "");
+      }
+
+      function closeAreaModal() {
+        if (!areaModal) return;
+        areaModal.classList.remove('open');
+      }
+
+      if (prefixBox) {
+        prefixBox.addEventListener('click', function () {
+          openAreaModal();
+        });
+      }
+
+      if (areaMask) {
+        areaMask.addEventListener('click', closeAreaModal);
+      }
+      if (areaClose) {
+        areaClose.addEventListener('click', closeAreaModal);
+      }
+
+      if (areaSearchInput) {
+        areaSearchInput.addEventListener('input', function () {
+          var v = areaSearchInput.value || "";
+          buildCountryOptions(countries, v);
+        });
+      }
+
+      function getPhoneDigits(value) {
+        return (value || '').replace(/\D/g, '');
+      }
+
+      function isPhoneValid() {
+        if (!phoneInput) return false;
+        var digits = getPhoneDigits(phoneInput.value);
+        return digits.length >= 5;
+      }
+
+      function isPasswordValid() {
+        if (!passwordInput) return false;
+        var value = passwordInput.value || '';
+        return value.length >= 8;
+      }
+
+      function updateLoginButtonState() {
+        if (!loginBtn) return;
+        var valid = isPhoneValid() && isPasswordValid();
+        if (valid) {
+          loginBtn.classList.remove('login-btn--disabled');
+          loginBtn.classList.add('login-btn--enabled');
+        } else {
+          loginBtn.classList.add('login-btn--disabled');
+          loginBtn.classList.remove('login-btn--enabled');
+        }
+      }
+
+      if (phoneInput) {
+        phoneInput.addEventListener('input', updateLoginButtonState);
+      }
+      if (passwordInput) {
+        passwordInput.addEventListener('input', updateLoginButtonState);
+      }
+
+      if (togglePasswordBtn && passwordInput) {
+        var eyeIcon = togglePasswordBtn.querySelector('.eye-icon');
+        togglePasswordBtn.addEventListener('click', function () {
+          var currentType = passwordInput.getAttribute('type') || 'password';
+          var isHidden = currentType === 'password';
+          passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
+          if (eyeIcon) {
+            eyeIcon.src = isHidden
+              ? 'images/password-eye-open.png'
+              : 'images/password-eye-closed.png';
+            eyeIcon.alt = isHidden ? 'Hide password' : 'Show password';
+          }
+        });
+      }
+
+      function showToast(message) {
+        var toast = document.getElementById('form-toast');
+        if (!toast) return;
+        toast.textContent = message;
+        toast.classList.add('toast-visible');
+        window.clearTimeout(showToast._timer);
+        showToast._timer = window.setTimeout(function () {
+          toast.classList.remove('toast-visible');
+        }, 2200);
+      }
+
+      function clearFieldError(field) {
+        if (!field) return;
+        field.classList.remove('input-error');
+      }
+
+      if (phoneInput) {
+        phoneInput.addEventListener('input', function () {
+          clearFieldError(phoneInput);
+          updateLoginButtonState();
+        });
+      }
+
+      if (passwordInput) {
+        passwordInput.addEventListener('input', function () {
+          clearFieldError(passwordInput);
+          updateLoginButtonState();
+        });
+      }
+
+      if (loginBtn) {
+        updateLoginButtonState();
+        loginBtn.addEventListener('click', async function () {
+  clearFieldError(phoneInput);
+  clearFieldError(passwordInput);
+
+  if (!isPhoneValid()) {
+    var digitsBad = phoneInput ? getPhoneDigits(phoneInput.value) : '';
+    showToast(digitsBad.length ? 'Please enter a valid phone number.' : 'Please enter your phone number.');
+    if (phoneInput) { phoneInput.classList.add('input-error'); phoneInput.focus(); }
+    return;
+  }
+
+  if (!isPasswordValid()) {
+    var pwdBad = passwordInput ? (passwordInput.value || '') : '';
+    showToast(pwdBad.length ? 'Password must be at least 8 characters.' : 'Please enter your password.');
+    if (passwordInput) { passwordInput.classList.add('input-error'); passwordInput.focus(); }
+    return;
+  }
+
+  try {
+    if (!window.ExaAuth || typeof window.ExaAuth.loginWithPhone !== 'function') {
+      throw new Error('Auth service not loaded.');
+    }
+
+    var digits = phoneInput ? getPhoneDigits(phoneInput.value) : '';
+    var areaCodeVal = prefixValue ? String(prefixValue.textContent || '').trim() : '';
+    var phoneFull = (window.ExaAuth.fullPhone)
+      ? window.ExaAuth.fullPhone(areaCodeVal, digits)
+      : (areaCodeVal + digits);
+
+    await window.ExaAuth.loginWithPhone({ phone: phoneFull });
+
+    window.location.href = 'my-assets.html';
+  } catch (err) {
+    try { console.error(err); } catch (_) {}
+    showToast((err && err.message) ? err.message : 'Login failed.');
+  }
+});
+      }
+    });
+  </script>
+
+
+<div aria-hidden="true" class="area-modal">
+<div class="area-modal-mask"></div>
+<div class="area-modal-panel">
+<div class="area-modal-header">
+<span class="area-modal-header-title">Select area code</span>
+<button class="area-close" type="button">×</button>
+</div>
+<div class="area-search">
+<input class="area-search-input" placeholder="Please search for the international dialing code" type="text"/>
+</div>
+<div class="area-list">
+<!-- populated by JS -->
+</div>
+</div>
+</div>
+<div class="toast-message" id="form-toast"></div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="common-nav.js"></script></body>
+</html>

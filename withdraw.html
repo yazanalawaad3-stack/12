@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<title>Withdraw - EXARAI</title>
+<link href="withdraw-style.css" rel="stylesheet"/>
+</head>
+<body>
+<div class="app">
+<header class="app-header">
+<a class="back-btn" href="javascript:history.back()">
+<div class="back-arrow"></div>
+</a>
+<div class="app-header-title">Withdraw</div>
+<div class="header-icon">⧉</div>
+</header>
+<main class="app-main">
+<div class="section-label">Withdrawal Currency</div>
+<div class="select-box" id="currencySelect">
+<span class="select-value" id="currencyValue">USDT</span>
+<span class="chevron">▾</span>
+</div>
+<div aria-hidden="true" class="dropdown-menu" id="currencyMenu">
+<button class="dropdown-item" data-currency="USDT" type="button">USDT</button>
+<button class="dropdown-item" data-currency="USDC" type="button">USDC</button>
+</div>
+<div class="section-label">Withdrawal Network</div>
+<div class="network-row" id="networkRow">
+<button class="network-pill active" data-network="TRC20" id="netTRC20" type="button">TRC20</button>
+<button class="network-pill" data-network="BEP20" id="netBEP20" style="display:none;" type="button">BEP20</button>
+<button class="network-pill" data-network="ERC20" id="netERC20" style="display:none;" type="button">ERC20</button>
+</div>
+<div class="section-label">Withdrawal Address</div>
+<div class="select-box address-row" id="addressSelect">
+<span class="select-placeholder" id="addressValue">Please select an address</span>
+<div class="address-icon">👤</div>
+<span class="chevron">▾</span>
+</div>
+<div aria-hidden="true" class="dropdown-menu" id="addressMenu">
+<!-- filled by JS -->
+</div>
+<button class="add-address-btn" id="addAddressBtn" type="button">Add address</button>
+<div class="section-label">Quantity</div>
+<div class="select-box qty-box">
+<input class="qty-input" id="qtyInput" min="0" placeholder="Enter Withdrawal Quantity" step="0.01" type="number"/>
+<div class="qty-right">
+<span class="qty-unit" id="qtyUnit">USDT</span>
+<span class="qty-max" id="maxLink">MAX</span>
+</div>
+</div>
+<div class="available-row">
+        Available <span class="value" id="availableVal">3.06 USDT</span>
+</div>
+<div class="info-card">
+<div class="info-row">
+<span>Minimum Withdrawal Quantity</span>
+<span><span id="minQty">20</span> <span class="unitLabel" id="minUnit">USDT</span></span>
+</div>
+<div class="info-row">
+<span>Withdrawal Fee</span>
+<span><span id="feeVal">0</span> <span class="unitLabel" id="feeUnit">USDT</span></span>
+</div>
+<div class="info-row">
+<span>Received Quantity</span>
+<span><span id="recvVal">0</span> <span class="unitLabel" id="recvUnit">USDT</span></span>
+</div>
+</div>
+<button class="withdraw-btn" id="withdrawBtn" type="button">Withdraw</button>
+<div class="reminder-title">Friendly Reminder</div>
+<ol class="reminder-list">
+<li>The minimum withdrawal amount is: <span class="reminder-em"><span id="reminderMin">20 USDT</span></span></li>
+<li>Withdrawal fee: <span class="reminder-em">5%</span></li>
+<li>Withdrawals will arrive within 2–120 hours.</li>
+<li>After completing <span class="reminder-em">6</span> AI computing power tasks, you can apply for withdrawal.</li>
+<li>Make sure your computer and browser are secure to prevent information from being tampered with or leaked.</li>
+<li>Before withdrawing coins, please confirm whether the withdrawal address is safe and corresponds to the current currency. Once the address of a non‑TRC20 network is used, the platform cannot help to retrieve it. Please check carefully before withdrawing coins.</li>
+</ol>
+</main>
+</div>
+
+<script>
+    (function() {{
+      var qtyInput = document.getElementById('qtyInput');
+      var feeVal = document.getElementById('feeVal');
+      var recvVal = document.getElementById('recvVal');
+      var minQty = 20;
+      var maxAvailable = 0;
+      var maxLink = document.getElementById('maxLink');
+      var withdrawBtn = document.getElementById('withdrawBtn');
+      var availableVal = document.getElementById('availableVal');
+
+      var balance = 0;
+
+      if (window.DemoWallet && typeof window.DemoWallet.getWallet === 'function') {
+        var w = DemoWallet.getWallet();
+        if (w && typeof w.balance === 'number') {
+          balance = w.balance;
+        }
+      }
+
+      maxAvailable = balance;
+      if (availableVal) {
+        availableVal.textContent = balance.toFixed(2) + ' USDT';
+      }
+
+      function updateValues() {{
+        var v = parseFloat(qtyInput.value);
+        if (isNaN(v) || v <= 0) {{
+          feeVal.textContent = '0';
+          recvVal.textContent = '0';
+          return;
+        }}
+        var fee = v * 0.05;
+        var received = v - fee;
+        feeVal.textContent = fee.toFixed(2);
+        recvVal.textContent = received.toFixed(2);
+      }}
+
+      if (qtyInput) {{
+        qtyInput.addEventListener('input', updateValues);
+      }}
+
+      if (maxLink) {{
+        maxLink.addEventListener('click', function() {{
+          qtyInput.value = maxAvailable.toFixed(2);
+          updateValues();
+        }});
+      }}
+
+      if (withdrawBtn) {
+        withdrawBtn.addEventListener('click', function() {
+          if (window.__withdraw_blocked__) { return; }
+
+          if (!window.DemoWallet || typeof window.DemoWallet.getWallet !== 'function' || typeof window.DemoWallet.withdraw !== 'function') {
+            alert('Internal error: wallet not available.');
+            return;
+          }
+
+          var v = parseFloat(qtyInput.value);
+          if (isNaN(v) || v <= 0) {
+            alert('Please enter a valid amount.');
+            return;
+          }
+
+          if (v < minQty) {
+            alert('The minimum withdrawal amount is ' + minQty + ' USDT.');
+            return;
+          }
+
+          if (v > balance) {
+            alert('Insufficient balance.');
+            return;
+          }
+
+          var wCheck = DemoWallet.getWallet();
+          if (!wCheck || typeof wCheck.totalIncome !== 'number' || wCheck.totalIncome < 6) {
+            alert('You can apply for withdrawal only after completing 6 AI computing power tasks.');
+            return;
+          }
+
+          var fee = v * 0.05;
+          var received = v - fee;
+
+          var result = DemoWallet.withdraw(v);
+          if (!result) {
+            alert('Withdrawal failed, please try again.');
+            return;
+          }
+
+          balance = result.balance || 0;
+          maxAvailable = balance;
+          if (availableVal) {
+            availableVal.textContent = balance.toFixed(2) + ' USDT';
+          }
+
+          if (qtyInput) {
+            qtyInput.value = '';
+          }
+          updateValues();
+
+          var addr = window.__withdraw_selected_address__ || '';
+          if (addr) {
+            alert('Withdrawal request submitted and is pending review.\nAddress: ' + addr);
+          } else {
+            alert('Withdrawal request submitted and is pending review.');
+          }
+        });
+      }
+    }})();
+  </script>
+
+
+<style>
+  .dropdown-menu{
+    display:none;
+    position:relative;
+    margin-top:10px;
+    border-radius:14px;
+    overflow:hidden;
+    border:1px solid rgba(255,255,255,0.08);
+    background: rgba(18, 34, 45, 0.9);
+    backdrop-filter: blur(10px);
+  }
+  .dropdown-menu.open{ display:block; }
+  .dropdown-item{
+    width:100%;
+    padding:14px 16px;
+    text-align:left;
+    background:transparent;
+    border:none;
+    color:#e9f1f5;
+    font-size:16px;
+  }
+  .dropdown-item + .dropdown-item{
+    border-top:1px solid rgba(255,255,255,0.06);
+  }
+  .dropdown-item:active{ opacity:0.8; }
+  .network-pill.active{
+    box-shadow: 0 0 0 1px rgba(0,255,255,0.35) inset;
+  }
+</style>
+<script>
+(function(){
+  const currencySelect = document.getElementById('currencySelect');
+  const currencyValue  = document.getElementById('currencyValue');
+  const currencyMenu   = document.getElementById('currencyMenu');
+
+  const qtyUnit  = document.getElementById('qtyUnit');
+  const minUnit  = document.getElementById('minUnit');
+  const feeUnit  = document.getElementById('feeUnit');
+  const recvUnit = document.getElementById('recvUnit');
+
+  const netTRC = document.getElementById('netTRC20');
+  const netBEP = document.getElementById('netBEP20');
+  const netERC = document.getElementById('netERC20');
+
+  function setActiveNetwork(btn){
+    [netTRC, netBEP, netERC].forEach(b => b && b.classList.remove('active'));
+    if(btn) btn.classList.add('active');
+    // store selected network for your withdraw logic
+    document.body.dataset.withdrawNetwork = btn ? btn.dataset.network : '';
+  }
+
+  function applyCurrency(cur){
+    currencyValue.textContent = cur;
+    document.body.dataset.withdrawCurrency = cur;
+
+    // Update unit labels
+    if(qtyUnit)  qtyUnit.textContent  = cur;
+    if(minUnit)  minUnit.textContent  = cur;
+    if(feeUnit)  feeUnit.textContent  = cur;
+    if(recvUnit) recvUnit.textContent = cur;
+
+    // Networks rule:
+    // - USDT => TRC20 فقط (مثل ما عندك)
+    // - USDC => BEP20 و ERC20 (مثل ما طلبت)
+    if(cur === 'USDC'){
+      if(netTRC) netTRC.style.display = 'none';
+      if(netBEP) netBEP.style.display = '';
+      if(netERC) netERC.style.display = '';
+      setActiveNetwork(netBEP);
+    }else{
+      if(netTRC) netTRC.style.display = '';
+      if(netBEP) netBEP.style.display = 'none';
+      if(netERC) netERC.style.display = 'none';
+      setActiveNetwork(netTRC);
+    }
+  }
+
+  // Toggle currency menu
+  currencySelect.addEventListener('click', function(e){
+    e.stopPropagation();
+    currencyMenu.classList.toggle('open');
+    currencyMenu.setAttribute('aria-hidden', currencyMenu.classList.contains('open') ? 'false' : 'true');
+  });
+
+  // Pick currency
+  currencyMenu.querySelectorAll('.dropdown-item').forEach(btn=>{
+    btn.addEventListener('click', function(e){
+      e.stopPropagation();
+      const cur = this.dataset.currency;
+      applyCurrency(cur);
+      currencyMenu.classList.remove('open');
+      currencyMenu.setAttribute('aria-hidden','true');
+    });
+  });
+
+  // Network clicks
+  [netTRC, netBEP, netERC].forEach(btn=>{
+    if(!btn) return;
+    btn.addEventListener('click', function(){
+      setActiveNetwork(this);
+    });
+  });
+
+  document.addEventListener('click', function(){
+    currencyMenu.classList.remove('open');
+    currencyMenu.setAttribute('aria-hidden','true');
+  });
+
+  // Init default
+  applyCurrency(currencyValue.textContent.trim() || 'USDT');
+})();
+</script>
+<script>
+(function(){
+  // --- Address book (local per user) ---
+  const addressSelect = document.getElementById('addressSelect');
+  const addressValue  = document.getElementById('addressValue');
+  const addressMenu   = document.getElementById('addressMenu');
+  const addBtn        = document.getElementById('addAddressBtn');
+  const withdrawBtn   = document.getElementById('withdrawBtn');
+
+  function getUserIdSafe(){
+    try{
+      if(window.DemoWallet && typeof DemoWallet.getUser === 'function'){
+        const u = DemoWallet.getUser();
+        if(u && u.id) return String(u.id);
+      }
+    }catch(e){}
+    // fallback: per-browser
+    return 'guest';
+  }
+
+  function getState(){
+    const cur = (document.body.dataset.withdrawCurrency || 'USDT').toUpperCase();
+    const net = (document.body.dataset.withdrawNetwork || (cur==='USDC'?'BEP20':'TRC20')).toUpperCase();
+    return {cur, net};
+  }
+
+  function storageKey(cur, net){
+    return 'withdraw_addresses_v1_' + getUserIdSafe() + '_' + cur + '_' + net;
+  }
+
+  function loadList(cur, net){
+    try{
+      const raw = localStorage.getItem(storageKey(cur, net));
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    }catch(e){ return []; }
+  }
+
+  function saveList(cur, net, list){
+    try{ localStorage.setItem(storageKey(cur, net), JSON.stringify(list || [])); }catch(e){}
+  }
+
+  function isValidAddress(addr, net){
+    const a = String(addr||'').trim();
+    if(!a) return false;
+    if(net === 'TRC20'){
+      // TRON base58: starts with T, length usually 34
+      return /^T[1-9A-HJ-NP-Za-km-z]{33}$/.test(a);
+    }
+    if(net === 'BEP20' || net === 'ERC20'){
+      // EVM: 0x + 40 hex chars
+      return /^0x[a-fA-F0-9]{40}$/.test(a);
+    }
+    // fallback: allow non-empty
+    return a.length >= 16;
+  }
+
+  function maskAddress(a){
+    const s = String(a);
+    if(s.length <= 12) return s;
+    return s.slice(0,6) + '...' + s.slice(-6);
+  }
+
+  function rebuildMenu(){
+    const {cur, net} = getState();
+    const list = loadList(cur, net);
+
+    // clear
+    addressMenu.innerHTML = '';
+    if(list.length === 0){
+      const b = document.createElement('button');
+      b.type='button';
+      b.className='dropdown-item';
+      b.textContent = 'No saved addresses';
+      b.disabled = true;
+      addressMenu.appendChild(b);
+      return;
+    }
+
+    list.forEach((addr)=>{
+      const b = document.createElement('button');
+      b.type='button';
+      b.className='dropdown-item';
+      b.dataset.addr = addr;
+      b.textContent = maskAddress(addr);
+      b.addEventListener('click', function(e){
+        e.stopPropagation();
+        selectAddress(addr);
+        closeMenu();
+      });
+      addressMenu.appendChild(b);
+    });
+
+    // remove option
+    const r = document.createElement('button');
+    r.type='button';
+    r.className='dropdown-item';
+    r.textContent = 'Remove selected address';
+    r.addEventListener('click', function(e){
+      e.stopPropagation();
+      removeSelected();
+      closeMenu();
+    });
+    addressMenu.appendChild(r);
+  }
+
+  function openMenu(){
+    rebuildMenu();
+    addressMenu.classList.add('open');
+    addressMenu.setAttribute('aria-hidden','false');
+  }
+  function closeMenu(){
+    addressMenu.classList.remove('open');
+    addressMenu.setAttribute('aria-hidden','true');
+  }
+
+  function getSelectedKey(){
+    const {cur, net} = getState();
+    return 'withdraw_selected_v1_' + getUserIdSafe() + '_' + cur + '_' + net;
+  }
+
+  function selectAddress(addr){
+    const a = String(addr||'').trim();
+    if(addressValue){
+      addressValue.textContent = a ? a : 'Please select an address';
+      addressValue.classList.toggle('select-placeholder', !a);
+    }
+    try{ localStorage.setItem(getSelectedKey(), a); }catch(e){}
+  }
+
+  function loadSelected(){
+    try{
+      const a = localStorage.getItem(getSelectedKey()) || '';
+      if(a) selectAddress(a);
+      else if(addressValue) addressValue.textContent = 'Please select an address';
+    }catch(e){}
+  }
+
+  function removeSelected(){
+    const {cur, net} = getState();
+    const sel = (localStorage.getItem(getSelectedKey())||'').trim();
+    if(!sel) return;
+    const list = loadList(cur, net).filter(x => String(x).trim() !== sel);
+    saveList(cur, net, list);
+    try{ localStorage.removeItem(getSelectedKey()); }catch(e){}
+    if(addressValue) addressValue.textContent = 'Please select an address';
+  }
+
+  function addAddressFlow(){
+    const {cur, net} = getState();
+    const addr = prompt('Enter your '+net+' address for '+cur+':');
+    if(addr === null) return; // cancelled
+    const cleaned = String(addr||'').trim();
+    if(!isValidAddress(cleaned, net)){
+      alert('Invalid address for '+net+'. Please check and try again.');
+      return;
+    }
+    const list = loadList(cur, net);
+    const exists = list.some(x => String(x).toLowerCase() === cleaned.toLowerCase());
+    if(!exists) list.unshift(cleaned);
+    saveList(cur, net, list.slice(0,20)); // keep last 20
+    selectAddress(cleaned);
+    alert('Address saved.');
+  }
+
+  function requireSelectedAddress(){
+    const {cur} = getState();
+    // For now, only require address for withdraw mode (USDT/USDC both are withdrawal currencies)
+    const sel = (localStorage.getItem(getSelectedKey())||'').trim();
+    if(!sel){
+      alert('Please select an address.');
+      return null;
+    }
+    const {net} = getState();
+    if(!isValidAddress(sel, net)){
+      alert('Selected address is invalid for '+net+'. Please add a valid address.');
+      return null;
+    }
+    return sel;
+  }
+
+  // Wire UI
+  if(addressSelect){
+    addressSelect.addEventListener('click', function(e){
+      e.stopPropagation();
+      // toggle
+      if(addressMenu.classList.contains('open')) closeMenu();
+      else openMenu();
+    });
+  }
+  if(addBtn){
+    addBtn.addEventListener('click', function(e){
+      e.stopPropagation();
+      addAddressFlow();
+    });
+  }
+  document.addEventListener('click', function(){
+    closeMenu();
+  });
+
+  // When currency/network changes, refresh selected label
+  const observer = new MutationObserver(function(){
+    loadSelected();
+  });
+  observer.observe(document.body, {attributes:true, attributeFilter:['data-withdraw-currency','data-withdraw-network']});
+
+  // Patch withdraw button to enforce address selection
+  if(withdrawBtn){
+    withdrawBtn.addEventListener('click', function(){
+      const addr = requireSelectedAddress();
+      if(!addr){
+        // stop other handlers (the earlier withdraw handler)
+        // cannot reliably stop, but we can set a flag checked by earlier handler
+        window.__withdraw_blocked__ = true;
+        setTimeout(()=>{ window.__withdraw_blocked__ = false; }, 0);
+      }else{
+        window.__withdraw_selected_address__ = addr;
+      }
+    }, true);
+  }
+
+  // initial
+  loadSelected();
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="wallet.js"></script><script src="common-nav.js"></script></body>
+</html>

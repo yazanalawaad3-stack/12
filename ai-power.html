@@ -1,0 +1,1263 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>AI Power</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #05070b;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      width: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .back-icon {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .header-right {
+      width: 40px;
+    }
+
+    .main {
+      flex: 1;
+      padding: 10px 10px 70px;
+      overflow-y: auto;
+    }
+
+    .hero-card {
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+
+    .hero-card img {
+      width: 100%;
+      display: block;
+    }
+
+    .notice-bar {
+      margin-bottom: 12px;
+      padding: 6px 10px;
+      border-radius: 10px;
+      background-color: #05070b;
+      border: 1px solid rgba(0, 209, 255, 0.25);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .notice-icon {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+
+    .notice-highlight {
+      color: #00d1ff;
+    }
+
+    .card {
+      border-radius: 12px;
+      background-color: #101b20;
+      padding: 10px 12px;
+      margin-bottom: 10px;
+    }
+
+    .card-row {
+      display: flex;
+      gap: 10px;
+    }
+
+    .card.half {
+      flex: 1;
+    }
+
+    .card-title {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 6px;
+    }
+
+    .card-main-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .card-value {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .card-sub {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-top: 4px;
+    }
+
+    .btn-gradient {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: none;
+      outline: none;
+      background-image: linear-gradient(90deg, #00d1ff, #46EEAC);
+      color: #05070b;
+      font-size: 12px;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .btn-outline {
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: transparent;
+      border: 1px solid #00d1ff;
+      color: #00d1ff;
+      font-size: 12px;
+    }
+
+    .experience-card {
+      display: flex;
+      align-items: center;
+      border-radius: 12px;
+      padding: 10px;
+      background: radial-gradient(circle at 0% 0%, #1e3d5a, #101b20);
+      margin-bottom: 12px;
+    }
+
+    .experience-icon {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 12px;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+
+    .experience-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .experience-body {
+      flex: 1;
+    }
+
+    .experience-label {
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .experience-slider-track {
+      position: relative;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.1);
+      margin-bottom: 6px;
+    }
+
+    .experience-slider-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 35%;
+      border-radius: 999px;
+      background-image: linear-gradient(90deg, #00d1ff, #46EEAC);
+    }
+
+    .experience-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background-color: rgba(0, 209, 255, 0.15);
+      border: 1px solid #00d1ff;
+      font-size: 10px;
+      color: #00d1ff;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .section-underline {
+      width: 80px;
+      height: 2px;
+      border-radius: 999px;
+      background-color: #00d1ff;
+      margin-bottom: 8px;
+    }
+
+    .gpu-card {
+      border-radius: 12px;
+      background-color: #101b20;
+      padding: 10px 10px 12px;
+      margin-bottom: 12px;
+    }
+
+    .gpu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      font-size: 12px;
+    }
+
+    .gpu-title {
+      font-weight: 500;
+    }
+
+    .gpu-lock {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background-color: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .gpu-lock-icon {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+      position: relative;
+    }
+
+    .gpu-lock-icon::before {
+      content: "";
+      position: absolute;
+      inset: 3px;
+      border-radius: 2px;
+      border: 1px solid rgba(255, 255, 255, 0.7);
+    }
+
+    .gpu-hero {
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+
+    .gpu-hero img {
+      width: 100%;
+      display: block;
+    }
+
+    .gpu-stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      margin-bottom: 8px;
+    }
+
+    .gpu-col {
+      flex: 1;
+    }
+
+    .gpu-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 3px;
+    }
+
+    .gpu-label {
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .gpu-value {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .gpu-value-accent {
+      color: #00d1ff;
+    }
+
+    .gpu-button-wrap {
+      margin-bottom: 6px;
+    }
+
+    .gpu-footnote {
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      line-height: 1.4;
+    }
+
+    .tabbar {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 60px;
+      background-color: #05070b;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: none !important;
+      justify-content: space-around;
+      align-items: center;
+      font-size: 10px;
+    }
+
+    .tab-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      flex: 1;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tab-icon-circle {
+      width: 20px;
+      height: 20px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      margin-bottom: 2px;
+    }
+
+    .tab-icon-circle-big {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      margin-bottom: 2px;
+      background-image: radial-gradient(circle at 30% 0%, #00d1ff, #02243f);
+    }
+
+    .tab-label {
+      white-space: nowrap;
+    }
+
+    .tab-item.active {
+      color: #00d1ff;
+    }
+  
+    .run-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 999;
+    }
+    .run-modal {
+      background-color: #101b20;
+      border-radius: 16px;
+      padding: 18px 20px;
+      max-width: 280px;
+      width: 80%;
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.7);
+      text-align: center;
+    }
+    .run-modal-title {
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .run-modal-text {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 12px;
+    }
+    .run-modal-spinner {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid rgba(0, 209, 255, 0.25);
+      border-top-color: #00d1ff;
+      margin: 0 auto 4px;
+      animation: run-spin 0.8s linear infinite;
+    }
+    .run-modal-countdown {
+      font-size: 11px;
+      color: #00d1ff;
+    }
+    @keyframes run-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+  </style>
+</head>
+<body>
+<div class="page">
+<div class="header">
+<div class="header-left">
+<a aria-label="Back" class="back-btn" href="javascript:history.back();">
+<span class="back-icon"></span>
+</a>
+</div>
+<div class="header-title">AI Power</div>
+<div class="header-right"></div>
+</div>
+<div class="main">
+<div class="hero-card">
+<img alt="AI Power Banner" src="images/787b12ff77bd17a97faab26980e3becd.png"/>
+</div>
+<div class="notice-bar">
+<span class="notice-icon">🔊</span>
+<span class="notice-highlight">337USDT</span> rewards  81***146 invite friends to recharge
+      </div>
+<div class="card">
+<div class="card-title">Amount that can be run today</div>
+<div class="card-main-row">
+<div class="card-value">0</div>
+<button class="btn-gradient">Run record</button>
+</div>
+</div>
+<div class="card-row">
+<div class="card half">
+<div class="card-title">Number of times that can be run today</div>
+<div class="card-main-row">
+<div>
+<div class="card-value">0 Times</div>
+</div>
+</div>
+<div class="card-sub">
+<button class="btn-outline">Earnings Records</button>
+</div>
+</div>
+<div class="card half">
+<div class="card-title">Run room</div>
+<div class="card-main-row">
+<div class="card-value"> </div>
+</div>
+<div class="card-sub">
+<button class="btn-outline">FAQ</button>
+</div>
+</div>
+</div>
+<div class="experience-card">
+<div class="experience-icon">
+<img alt="Experience" src="images/9aaaf1df80f64963da5fe5b27a7c66ee.png"/>
+</div>
+<div class="experience-body">
+<div class="experience-label">Experience user</div>
+<div class="experience-slider-track">
+<div class="experience-slider-fill"></div>
+</div>
+<span class="experience-tag">Level:V0</span>
+</div>
+</div>
+<div class="section-title">Computing power list</div>
+<div class="section-underline"></div>
+<!-- GPU 2 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 2 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 2 cores" src="images/6863886ea5961a438f26ea24b647a3b1.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">300–5000 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/2</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V1</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">1.5% ~ 2.8%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+<!-- GPU 4 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 4 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 4 cores" src="images/63502635d6b1300b130c966bc2ae5760.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">500–20000 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/3</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V2</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">2% ~ 3.3%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+<!-- GPU 8 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 8 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 8 cores" src="images/a7c3b7e3c719242996d00e2094077f62.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">3000–50000 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/5</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V3</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">2.5% ~ 3.8%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+<!-- GPU 16 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 16 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 16 cores" src="images/c7ed95180c9cbc57ce1a5e874e0fe691.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">10000–80000 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/5</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V4</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">3% ~ 4.3%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+<!-- GPU 32 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 32 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 32 cores" src="images/f01160ae38fd581f12e9c5bb67c9f5a8.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">30000–200000 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/6</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V5</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">3.5% ~ 4.8%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+<!-- GPU 64 cores -->
+<div class="gpu-card">
+<div class="gpu-header">
+<div class="gpu-title">GPU 64 cores</div>
+<div class="gpu-lock">
+<span class="gpu-lock-icon"></span>
+<span>Not unlocked</span>
+</div>
+</div>
+<div class="gpu-hero">
+<img alt="GPU 64 cores" src="images/a33936aa353cbbfd6c6e273ba75db0cb.png"/>
+</div>
+<div class="gpu-stats">
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Today's profit</span>
+<span class="gpu-value gpu-value-accent">0 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running amount</span>
+<span class="gpu-value">100000–999999 USDT</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily run times</span>
+<span class="gpu-value">0/7</span>
+</div>
+</div>
+<div class="gpu-col">
+<div class="gpu-row">
+<span class="gpu-label">Level</span>
+<span class="gpu-value">V6</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Daily rate of return</span>
+<span class="gpu-value">4% ~ 5.3%</span>
+</div>
+<div class="gpu-row">
+<span class="gpu-label">Running time</span>
+<span class="gpu-value">8 seconds</span>
+</div>
+</div>
+</div>
+<div class="gpu-button-wrap">
+<button class="btn-gradient">Run after unlocking</button>
+</div>
+<div class="gpu-footnote">
+          *The computing power package needs to be clicked and run for 8 seconds every day to obtain income. If it is not clicked, no income can be obtained on that day. After the operation is completed, the income will be distributed to the account balance.
+        </div>
+</div>
+</div>
+</div>
+<div class="run-modal-backdrop" id="runModal">
+<div class="run-modal">
+<div class="run-modal-title">Running task…</div>
+<div class="run-modal-text">Please wait while your AI power task is running.</div>
+<div class="run-modal-spinner"></div>
+<div class="run-modal-countdown" id="runModalCountdown">8s</div>
+</div>
+</div>
+<div class="tabbar">
+<div class="tab-item">
+<div class="tab-icon-circle"></div>
+<div class="tab-label">AI–Tools</div>
+</div>
+<div class="tab-item">
+<div class="tab-icon-circle"></div>
+<div class="tab-label">AI Chat</div>
+</div>
+<div class="tab-item active">
+<div class="tab-icon-circle-big"></div>
+<div class="tab-label">AI Power</div>
+</div>
+<div class="tab-item">
+<div class="tab-icon-circle"></div>
+<div class="tab-label">Assets</div>
+</div>
+<div class="tab-item">
+<div class="tab-icon-circle"></div>
+<div class="tab-label">Mine</div>
+</div>
+</div>
+
+<script>
+  
+  (function() {
+    // --- Shared user info from demo storage ---
+    function getDemoUserInfo() {
+      var balance = parseFloat(localStorage.getItem("demoBalance") || "0");
+      var effectiveUsers = parseInt(localStorage.getItem("demoEffectiveUsers") || "0", 10);
+      if (isNaN(balance)) balance = 0;
+      if (isNaN(effectiveUsers)) effectiveUsers = 0;
+      return { balance: balance, effectiveUsers: effectiveUsers };
+    }
+
+    // --- Membership rules (same logic as Member page) ---
+    var levelRules = {
+      V1: { minBalance: 50,   minUsers: 0  },
+      V2: { minBalance: 500,  minUsers: 5  },
+      V3: { minBalance: 3000, minUsers: 10 },
+      V4: { minBalance: 10000, minUsers: 0 },
+      V5: { minBalance: 30000, minUsers: 0 },
+      V6: { minBalance: 100000, minUsers: 0 }
+    };
+
+    var levelOrderMap = { V0: 0, V1: 1, V2: 2, V3: 3, V4: 4, V5: 5, V6: 6 };
+
+    function calcMembershipLevel() {
+      var user = getDemoUserInfo();
+      var balance = user.balance;
+      var eff = user.effectiveUsers;
+      var current = "V0";
+
+      ["V1","V2","V3"].forEach(function(lvl) {
+        var r = levelRules[lvl];
+        if (balance >= r.minBalance && eff >= r.minUsers) {
+          current = lvl;
+        }
+      });
+      if (current === "V0") { current = "V1"; }
+      return current;
+    }
+
+    function calcTotalDailyProfit() {
+      var user = getDemoUserInfo();
+      return user.balance * 0.018; // 1.8% of current balance as total daily profit
+    }
+
+    function calcTotalAllowedRuns() {
+      var total = 0;
+      if (Array.isArray(gpuConfigs) && state && state.levels) {
+        gpuConfigs.forEach(function(cfg, idx) {
+          var st = state.levels[idx];
+          if (!st) return;
+          if (st.unlocked && (cfg.levelText === "V1" || cfg.levelText === "V2" || cfg.levelText === "V3")) {
+            total += cfg.maxRuns;
+          }
+        });
+      }
+      return total || 1;
+    }
+
+
+    // --- Daily reset helper ---
+    
+    // --- Supabase (system) crediting for AI Power ---
+    var SUPABASE_URL = "https://oyowsjjmaesspqiknvhp.supabase.co";
+    var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95b3dzamptYWVzc3BxaWtudmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MTE4NzcsImV4cCI6MjA4MTM4Nzg3N30.aBo32xNG_dh1QD7NBI4N6jhYFLY42Xyxer2DNXxJi-w";
+    var SB_USER_ID_KEY = "sb_user_id_v1";
+
+    function apiHeaders() {
+      return {
+        "apikey": SUPABASE_ANON,
+        "Authorization": "Bearer " + SUPABASE_ANON,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      };
+    }
+
+    function getSupabaseUserId() {
+      try { return localStorage.getItem(SB_USER_ID_KEY) || ""; } catch (e) { return ""; }
+    }
+
+    async function fetchWalletRow(userId) {
+      var url = SUPABASE_URL + "/rest/v1/wallet_balances?select=usdt_balance,updated_at&user_id=eq." +
+        encodeURIComponent(userId) + "&limit=1";
+      var res = await fetch(url, { method: "GET", headers: apiHeaders() });
+      if (!res.ok) return null;
+      var rows = await res.json();
+      return (Array.isArray(rows) && rows[0]) ? rows[0] : null;
+    }
+
+    async function updateWalletBalance(userId, newBalance) {
+      var url = SUPABASE_URL + "/rest/v1/wallet_balances?user_id=eq." + encodeURIComponent(userId);
+      var res = await fetch(url, {
+        method: "PATCH",
+        headers: Object.assign({}, apiHeaders(), { "Prefer": "return=minimal" }),
+        body: JSON.stringify({ usdt_balance: newBalance, updated_at: new Date().toISOString() })
+      });
+      return res.ok;
+    }
+
+    async function insertWalletBalance(userId, balance) {
+      var url = SUPABASE_URL + "/rest/v1/wallet_balances";
+      var res = await fetch(url, {
+        method: "POST",
+        headers: Object.assign({}, apiHeaders(), { "Prefer": "return=minimal" }),
+        body: JSON.stringify({ user_id: userId, usdt_balance: balance })
+      });
+      return res.ok;
+    }
+
+    async function insertIpowerAction(userId, snapshot, earning) {
+      var url = SUPABASE_URL + "/rest/v1/ipower_actions";
+      var res = await fetch(url, {
+        method: "POST",
+        headers: Object.assign({}, apiHeaders(), { "Prefer": "return=minimal" }),
+        body: JSON.stringify({
+          user_id: userId,
+          action_type: "tap",
+          balance_snapshot: snapshot,
+          earning_amount: earning
+        })
+      });
+      return res.ok;
+    }
+
+    async function applyIpowerProfit(profit) {
+      var p = Number(profit);
+      if (!isFinite(p) || p <= 0) throw new Error("Invalid profit");
+      var userId = getSupabaseUserId();
+      if (!userId) throw new Error("Missing user session");
+
+      var row = await fetchWalletRow(userId);
+      var snapshot = row && row.usdt_balance != null ? Number(row.usdt_balance) : 0;
+      if (!isFinite(snapshot)) snapshot = 0;
+
+      var newBal = snapshot + p;
+
+      // 1) Log action in ipower_actions (system table)
+      await insertIpowerAction(userId, snapshot, p);
+
+      // 2) Credit wallet_balances
+      var ok = await updateWalletBalance(userId, newBal);
+      if (!ok) {
+        // If row doesn't exist yet, try insert then update
+        await insertWalletBalance(userId, newBal);
+        await updateWalletBalance(userId, newBal);
+      }
+
+      // 3) Sync local demoBalance so membership UI stays consistent
+      try { localStorage.setItem("demoBalance", String(newBal.toFixed(2))); } catch (e) {}
+      return newBal;
+    }
+
+var todayStr = new Date().toISOString().slice(0, 10);
+
+    var gpuCardEls = document.querySelectorAll(".gpu-card");
+    if (!gpuCardEls.length) return;
+
+    var stateKey = "aiPowerState_v1";
+
+    var topCard = document.querySelector(".card");
+    var topAmountEl = topCard ? topCard.querySelector(".card-value") : null;
+
+    var cardRowValues = document.querySelectorAll(".card-row .card-value");
+    var timesCardValueEl = cardRowValues[0] || null;
+    var runRoomValueEl = cardRowValues[1] || null;
+
+    var levelTagEl = document.querySelector(".experience-tag");
+
+    var gpuConfigs = [];
+    var defaultState = {
+      currentLevelIndex: -1,
+      lastRunDate: todayStr,
+      levels: []
+    };
+
+    gpuCardEls.forEach(function(cardEl, index) {
+      var rightCol = cardEl.querySelectorAll(".gpu-col")[1];
+      var leftCol = cardEl.querySelectorAll(".gpu-col")[0];
+      if (!rightCol || !leftCol) return;
+
+      var levelEl = rightCol.querySelector(".gpu-row:nth-child(1) .gpu-value");
+      var levelText = levelEl ? levelEl.textContent.trim() : "V" + (index + 1);
+
+      var runTimesEl = leftCol.querySelector(".gpu-row:nth-child(3) .gpu-value");
+      var runTimesText = runTimesEl ? runTimesEl.textContent.trim() : "0/0";
+      var match = runTimesText.match(/\/(\d+)/);
+      var maxRuns = match ? parseInt(match[1], 10) : 0;
+
+      var runningAmountEl = leftCol.querySelector(".gpu-row:nth-child(2) .gpu-value");
+      var runningAmountText = runningAmountEl ? runningAmountEl.textContent : "";
+      var nums = runningAmountText.match(/\d+/g) || [];
+      var minAmount = nums[0] ? parseFloat(nums[0]) : 0;
+      var maxAmount = nums[1] ? parseFloat(nums[1]) : minAmount;
+      var baseAmount = (minAmount + maxAmount) / 2;
+
+      var rateEl = rightCol.querySelector(".gpu-row:nth-child(2) .gpu-value");
+      var rateText = rateEl ? rateEl.textContent : "";
+      var rateMatches = rateText.match(/([\d.]+)%/g) || [];
+      var rateMin = rateMatches[0] ? parseFloat(rateMatches[0]) : 0;
+      var rateMax = rateMatches[1] ? parseFloat(rateMatches[1]) : rateMin;
+
+      gpuConfigs.push({
+        index: index,
+        levelText: levelText,
+        maxRuns: maxRuns,
+        baseAmount: baseAmount,
+        rateMin: rateMin,
+        rateMax: rateMax,
+        cardEl: cardEl
+      });
+
+      defaultState.levels.push({
+        unlocked: false,
+        runsToday: 0,
+        todayProfit: 0
+      });
+    });
+
+    function clone(obj) {
+      return JSON.parse(JSON.stringify(obj));
+    }
+
+    function loadState() {
+      try {
+        var raw = localStorage.getItem(stateKey);
+        if (raw) {
+          var parsed = JSON.parse(raw);
+          if (parsed && Array.isArray(parsed.levels) && parsed.levels.length === defaultState.levels.length) {
+            // Handle daily reset
+            if (parsed.lastRunDate !== todayStr) {
+              parsed.levels.forEach(function(lvl) {
+                lvl.runsToday = 0;
+                lvl.todayProfit = 0;
+              });
+              parsed.lastRunDate = todayStr;
+            }
+            return parsed;
+          }
+        }
+      } catch (e) {}
+      return clone(defaultState);
+    }
+
+    var state = loadState();
+
+    // Determine membership-based access
+    var membershipLevel = calcMembershipLevel();
+    var membershipRank = levelOrderMap[membershipLevel] || 0;
+
+    // Update unlocks based on membership (V1–V3 only)
+    gpuConfigs.forEach(function(cfg, i) {
+      var lvlText = cfg.levelText;
+      var reqRank = levelOrderMap[lvlText] || 0;
+      var st = state.levels[i];
+      if (!st) return;
+      // Only levels up to V3 can ever be unlocked; V4+ stay cosmetic
+      if (reqRank > 3 || membershipRank === 0 || membershipRank < reqRank) {
+        st.unlocked = false;
+      } else {
+        st.unlocked = true;
+      }
+      state.levels[i] = st;
+    });
+
+    // Sync currentLevelIndex with membership
+    var currentIdx = -1;
+    gpuConfigs.forEach(function(cfg, i) {
+      if (cfg.levelText === membershipLevel) {
+        currentIdx = i;
+      }
+    });
+    state.currentLevelIndex = currentIdx;
+
+    function saveState() {
+      try {
+        localStorage.setItem(stateKey, JSON.stringify(state));
+      } catch (e) {}
+    }
+
+    function setCurrentLevel(index) {
+      state.currentLevelIndex = index;
+      gpuConfigs.forEach(function(cfg, i) {
+        var lockTextEl = cfg.cardEl.querySelector(".gpu-lock span:last-child");
+        if (!lockTextEl) return;
+        if (state.levels[i].unlocked) {
+          lockTextEl.textContent = "Unlocked";
+        } else {
+          lockTextEl.textContent = "Not unlocked";
+        }
+      });
+      if (levelTagEl) {
+        var currentLabel = index >= 0 ? gpuConfigs[index].levelText : "V0";
+        levelTagEl.textContent = "Level:" + currentLabel;
+      }
+    }
+
+    function updateSummary() {
+      var totalAmountLeft = 0;
+      var totalRunsLeft = 0;
+
+      gpuConfigs.forEach(function(cfg, i) {
+        var st = state.levels[i];
+        var profitEl = cfg.cardEl.querySelector(".gpu-value-accent");
+        var runTimesEl = cfg.cardEl.querySelector(".gpu-col:first-child .gpu-row:nth-child(3) .gpu-value");
+
+        if (profitEl) {
+          profitEl.textContent = st.todayProfit.toFixed(2) + " USDT";
+        }
+        if (runTimesEl) {
+          runTimesEl.textContent = st.runsToday + "/" + cfg.maxRuns;
+        }
+
+        if (st.unlocked) {
+          var remainingRuns = Math.max(cfg.maxRuns - st.runsToday, 0);
+          totalRunsLeft += remainingRuns;
+          totalAmountLeft += remainingRuns * cfg.baseAmount;
+        }
+      });
+
+      if (topAmountEl) {
+        topAmountEl.textContent = totalAmountLeft.toFixed(2);
+      }
+
+      if (timesCardValueEl) {
+        timesCardValueEl.textContent = totalRunsLeft + " Times";
+      }
+
+      if (runRoomValueEl) {
+        runRoomValueEl.textContent =
+          state.currentLevelIndex >= 0 ? gpuConfigs[state.currentLevelIndex].levelText : "—";
+      }
+    }
+
+    setCurrentLevel(state.currentLevelIndex);
+    updateSummary();
+
+    gpuConfigs.forEach(function(cfg, i) {
+      var btn = cfg.cardEl.querySelector(".gpu-button-wrap .btn-gradient");
+      if (!btn) return;
+
+      function setButtonText() {
+        btn.textContent = state.levels[i].unlocked ? "Run" : "Run after unlocking";
+      }
+      setButtonText();
+
+      btn.addEventListener("click", function() {
+        var st = state.levels[i];
+
+        // Membership-locked levels cannot be manually unlocked
+        if (!st.unlocked) {
+          alert("This computing power package is locked. Please upgrade your member level to use it.");
+          return;
+        }
+
+        // 3-day no-recharge check (optional demo)
+        var lastRecharge = localStorage.getItem("demoLastRechargeAt");
+        if (lastRecharge) {
+          try {
+            var last = new Date(lastRecharge);
+            var now = new Date();
+            var diffDays = (now - last) / (1000 * 60 * 60 * 24);
+            if (diffDays > 3) {
+              alert("Your account has not been recharged for more than 3 days. Please recharge to continue running AI Power.");
+              return;
+            }
+          } catch (e) {}
+        }
+
+        if (st.runsToday >= cfg.maxRuns) {
+          alert("No run times left today for this level.");
+          return;
+        }
+
+        var duration = 8;
+        btn.disabled = true;
+        var originalText = "Run";
+
+        // Show modal
+        var modal = document.getElementById("runModal");
+        var countdownEl = document.getElementById("runModalCountdown");
+        if (modal && countdownEl) {
+          modal.style.display = "flex";
+          countdownEl.textContent = duration + "s";
+        }
+
+        function tick() {
+          duration--;
+          if (countdownEl) {
+            countdownEl.textContent = (duration >= 0 ? duration : 0) + "s";
+          }
+          if (duration < 0) {
+            clearInterval(timer);
+            finishRun();
+          }
+        }
+
+        var timer = setInterval(tick, 1000);
+
+        function finishRun() {
+          btn.disabled = false;
+          btn.textContent = originalText;
+          if (modal) {
+            modal.style.display = "none";
+          }
+          st.runsToday += 1;
+
+          var rate = cfg.rateMin + Math.random() * (cfg.rateMax - cfg.rateMin);
+          var profit = cfg.baseAmount * (rate / 100) / Math.max(cfg.maxRuns, 1);
+          st.todayProfit += profit;
+
+          // System (Supabase): record action + credit wallet balance
+          applyIpowerProfit(profit).catch(function(err) {
+            // Fallback: keep offline demo moving if user is not logged in / API blocked
+            try { console.warn("applyIpowerProfit failed:", err && err.message ? err.message : err); } catch (e) {}
+            if (window.DemoWallet && typeof window.DemoWallet.addIncome === 'function') {
+              window.DemoWallet.addIncome(1);
+            }
+          });
+
+          state.levels[i] = st;
+          saveState();
+          updateSummary();
+
+          alert(
+            "Run completed. Profit +" +
+              profit.toFixed(2) +
+              " USDT"
+          );
+        }
+      });
+    });
+  })();
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="wallet.js"></script><script src="common-nav.js"></script></body>
+</html>

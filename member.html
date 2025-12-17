@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Member</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #05070b;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      width: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .back-icon {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .header-right {
+      width: 40px;
+    }
+
+    .main {
+      flex: 1;
+      padding: 12px 12px 24px;
+      overflow-y: auto;
+    }
+
+    .level-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .current-level-pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 4px 10px;
+      border-radius: 14px;
+      background: #122b40;
+      font-size: 11px;
+    }
+
+    .current-level-pill img {
+      width: 16px;
+      height: 16px;
+      margin-right: 4px;
+      border-radius: 50%;
+    }
+
+    .next-level {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: 10px;
+    }
+
+    .tab {
+      flex: 1;
+      text-align: center;
+      padding: 8px 0;
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.6);
+      position: relative;
+    }
+
+    .tab.active {
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .tab.active::after {
+      content: "";
+      position: absolute;
+      left: 25%;
+      right: 25%;
+      bottom: 0;
+      height: 2px;
+      border-radius: 2px;
+      background: #f6c453;
+    }
+
+    .vip-banner {
+      position: relative;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      background-image: url("images/level-big-bg-h5-1-DBrok_Wn.png");
+      background-size: cover;
+      background-position: center;
+      min-height: 120px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .vip-banner-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+
+    .vip-level-label {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .vip-icon {
+      width: 70px;
+      height: 70px;
+    }
+
+    .vip-locked {
+      display: inline-flex;
+      align-items: center;
+      margin-top: 6px;
+      padding: 3px 10px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.35);
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .vip-locked::before {
+      content: "\1F512";
+      font-size: 12px;
+      margin-right: 6px;
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .progress-wrapper {
+      margin-bottom: 14px;
+    }
+
+    .progress-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 10px;
+      color: rgba(255, 255, 255, 0.6);
+      margin-bottom: 4px;
+    }
+
+    .progress-bar {
+      position: relative;
+      height: 4px;
+      border-radius: 999px;
+      background: #101b20;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 55%;
+      background: linear-gradient(90deg, #f6c453, #f5e3a4);
+    }
+
+    .progress-dots {
+      position: relative;
+      margin-top: 6px;
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #101b20;
+      border: 1px solid #f6c453;
+    }
+
+    .stats-grid {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 8px;
+    }
+
+    .stat-card {
+      flex: 1;
+      border-radius: 10px;
+      background: #101b20;
+      padding: 10px;
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .stat-icon {
+      width: 18px;
+      height: 18px;
+      margin-right: 6px;
+    }
+
+    .stat-title {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .stat-value {
+      font-size: 16px;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+
+    .stat-sub {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .tip-text {
+      margin: 8px 2px 16px;
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    .vip-section {
+      margin-bottom: 28px;
+      display: none;
+    }
+
+    .vip-section.active {
+      display: block;
+    }
+
+    .benefits-card {
+      border-radius: 14px;
+      background: #101b20;
+      padding: 12px 12px 14px;
+    }
+
+    .benefits-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 8px;
+    }
+
+    .benefit-item {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.75);
+    }
+
+    .benefit-label {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .benefit-icon {
+      width: 14px;
+      height: 14px;
+      margin-right: 4px;
+    }
+
+    .benefit-main {
+      font-weight: 500;
+    }
+
+    .benefit-desc {
+      font-size: 11px;
+      margin-top: 2px;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .benefit-full-row {
+      grid-column: span 2;
+    }
+
+    .profit-rate {
+      margin-top: 2px;
+      font-size: 11px;
+    }
+
+    .profit-rate span {
+      margin-right: 8px;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+<div class="header">
+<div class="header-left">
+<a aria-label="Back" class="back-btn" href="javascript:history.back();">
+<span class="back-icon"></span>
+</a>
+</div>
+<div class="header-title">Member</div>
+<div class="header-right"></div>
+</div>
+<div class="main">
+<div class="level-bar">
+<div class="current-level-pill">
+<img alt="" src="images/member-trophy.jpg"/>
+<span>Current Member Level:V0</span>
+</div>
+<div class="next-level">Next Level:V2</div>
+</div>
+<div class="tabs">
+<div class="tab active" data-level="V1">V1</div>
+<div class="tab" data-level="V2">V2</div>
+<div class="tab" data-level="V3">V3</div>
+<div class="tab" data-level="V4">V4</div>
+<div class="tab" data-level="V5">V5</div>
+<div class="tab" data-level="V6">V6</div>
+</div>
+<div class="vip-section active" data-level="V1">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V1</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V1" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V1 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/50</div>
+<div class="stat-sub">USDT Balance needed to reach V1</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/0</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V1 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">500 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span></div><div class="benefit-desc">2 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="vip-section" data-level="V2">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V2</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V2" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V2 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/500</div>
+<div class="stat-sub">USDT Balance needed to reach V2</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/5</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V2 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">1000 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span>
+</div>
+<div class="benefit-desc">3 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="vip-section" data-level="V3">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V3</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V3" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V3 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/1000</div>
+<div class="stat-sub">USDT Balance needed to reach V3</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/10</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V3 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">2000 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span>
+</div>
+<div class="benefit-desc">4 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="vip-section" data-level="V4">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V4</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V4" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V4 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/10000</div>
+<div class="stat-sub">USDT Balance needed to reach V4</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/15</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V4 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">3000 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span>
+</div>
+<div class="benefit-desc">5 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="vip-section" data-level="V5">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V5</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V5" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V5 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/10000</div>
+<div class="stat-sub">USDT Balance needed to reach V5</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/20</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V5 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">5000 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span>
+</div>
+<div class="benefit-desc">6 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+<div class="vip-section" data-level="V6">
+<div class="vip-banner">
+<div class="vip-banner-top">
+<div>
+<div class="vip-level-label">V6</div>
+<div class="vip-locked">Locked at this Level</div>
+</div>
+<img alt="V6" class="vip-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+</div>
+</div>
+<div class="section-title">V6 Level Achievement Conditions:</div>
+<div class="progress-wrapper">
+<div class="progress-labels">
+<span>Not Achieved</span>
+<span>Achieved</span>
+</div>
+<div class="progress-bar">
+<div class="progress-bar-fill"></div>
+</div>
+<div class="progress-dots">
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+<div class="progress-dot"></div>
+</div>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-2-NAAgvz2o.png"/>
+<div class="stat-title">USDT Balance</div>
+</div>
+<div class="stat-value">0/100000</div>
+<div class="stat-sub">USDT Balance needed to reach V6</div>
+</div>
+<div class="stat-card">
+<div class="stat-header">
+<img alt="" class="stat-icon" src="images/user-1-EGMbdrEX.png"/>
+<div class="stat-title">Number of effective users</div>
+</div>
+<div class="stat-value">0/25</div>
+<div class="stat-sub">Number of effective users of direct push and promotion</div>
+</div>
+</div>
+<div class="tip-text">
+    Effective user: VIP level 1 and above is a valid user
+  </div>
+<div class="section-title">V6 Level Benefits:</div>
+<div class="benefits-card">
+<div class="benefits-grid">
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Minimum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">20 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Maximum Withdrawal Amount per Transaction</span>
+</div>
+<div class="benefit-desc">7000 USDT</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-1-EGMbdrEX.png"/>
+<span class="benefit-main">Withdrawal Fee</span></div><div class="benefit-desc">5%</div>
+</div>
+<div class="benefit-item">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/user-2-NAAgvz2o.png"/>
+<span class="benefit-main">Team income level</span>
+</div>
+<div class="benefit-desc">7 Level</div>
+</div>
+<div class="benefit-item benefit-full-row">
+<div class="benefit-label">
+<img alt="" class="benefit-icon" src="images/vip1_icon-4ZSc4Mlc.png"/>
+<span class="benefit-main">Generation Profit Rate</span>
+</div>
+<div class="profit-rate"><span>LV.1 20%</span><span>LV.2 5%</span><span>LV.3 3%</span></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<script>
+  (function() {
+    var tabs = document.querySelectorAll('.tabs .tab');
+    var sections = document.querySelectorAll('.vip-section');
+
+    function setActive(level) {
+      tabs.forEach(function(tab) {
+        tab.classList.toggle('active', tab.getAttribute('data-level') === level);
+      });
+      sections.forEach(function(sec) {
+        sec.classList.toggle('active', sec.getAttribute('data-level') === level);
+      });
+    }
+
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        var level = tab.getAttribute('data-level');
+        setActive(level);
+      });
+    });
+  })();
+</script>
+
+
+
+
+<script>
+  (function () {
+    function applyVipInfo() {
+      if (!window.DemoWallet || !window.DemoWallet.getVipInfo) return;
+      var info = window.DemoWallet.getVipInfo();
+
+      var pillSpan = document.querySelector(".current-level-pill span");
+      if (pillSpan && info.currentLevel) {
+        pillSpan.textContent = "Current Member Level:" + info.currentLevel;
+      }
+
+      var nextLevelEl = document.querySelector(".next-level");
+      if (nextLevelEl) {
+        if (info.nextLevel) {
+          nextLevelEl.textContent = "Next Level:" + info.nextLevel;
+        } else {
+          nextLevelEl.textContent = "Max Level";
+        }
+      }
+
+      var sections = document.querySelectorAll(".vip-section");
+      var balance = typeof info.balance === "number" ? info.balance : 0;
+      var effectiveUsers = 0;
+      if (typeof info.effectiveUsers === "number") {
+        effectiveUsers = info.effectiveUsers;
+      }
+      if (window.DemoWallet && typeof window.DemoWallet.getTeamSummary === "function") {
+        try {
+          var team = window.DemoWallet.getTeamSummary();
+          if (team && team.members && team.members.length) {
+            effectiveUsers = team.members.filter(function (m) {
+              return m.level && m.level >= 1;
+            }).length;
+          }
+        } catch (e) {}
+      }
+
+      sections.forEach(function (sec) {
+        var level = sec.getAttribute("data-level");
+        var rules = info.rulesByLevel && info.rulesByLevel[level];
+        if (!rules) return;
+
+        var statValues = sec.querySelectorAll(".stat-card .stat-value");
+        if (statValues.length >= 2) {
+          statValues[0].textContent = balance + "/" + rules.minBalance;
+
+          var requiredUsersMap = {
+            "V1": 0,
+            "V2": 5,
+            "V3": 10,
+            "V4": 15,
+            "V5": 20,
+            "V6": 25
+          };
+          var requiredUsers = requiredUsersMap[level] != null ? requiredUsersMap[level] : rules.minUsers;
+          statValues[1].textContent = effectiveUsers + "/" + requiredUsers;
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", applyVipInfo);
+    } else {
+      applyVipInfo();
+    }
+  })();
+</script>
+<script>
+  (function () {
+    function getDemoUserInfo() {
+      var balance = parseFloat(localStorage.getItem("demoBalance") || "0");
+      var effectiveUsers = parseInt(localStorage.getItem("demoEffectiveUsers") || "0", 10);
+
+      if (isNaN(balance)) balance = 0;
+      if (isNaN(effectiveUsers)) effectiveUsers = 0;
+
+      return {
+        balance: balance,
+        effectiveUsers: effectiveUsers
+      };
+    }
+
+    var rulesByLevel = {
+      V1: { minBalance: 50,   minUsersTotal: 0  },
+      V2: { minBalance: 500,  minUsersTotal: 5  },
+      V3: { minBalance: 3000, minUsersTotal: 10 },
+      V4: { minBalance: 10000,minUsersTotal: 30 },
+      V5: { minBalance: 30000,minUsersTotal: 50 },
+      V6: { minBalance: 100000,minUsersTotal: 75 }
+    };
+
+    var levelOrder = ["V0","V1","V2","V3","V4","V5","V6"];
+
+    function calculateCurrentLevel(balance, totalUsers) {
+      var current = "V0";
+
+      if (balance >= rulesByLevel.V1.minBalance && totalUsers >= rulesByLevel.V1.minUsersTotal) {
+        current = "V1";
+      }
+      if (balance >= rulesByLevel.V2.minBalance && totalUsers >= rulesByLevel.V2.minUsersTotal) {
+        current = "V2";
+      }
+      if (balance >= rulesByLevel.V3.minBalance && totalUsers >= rulesByLevel.V3.minUsersTotal) {
+        current = "V3";
+      }
+      return current;
+    }
+
+    function getNextLevel(current) {
+      if (current === "V0") return "V1";
+      if (current === "V1") return "V2";
+      if (current === "V2") return "V3";
+      return null;
+    }
+
+    function applyVipLogic() {
+      var user = getDemoUserInfo();
+      var balance = user.balance;
+      var totalEffectiveUsers = user.effectiveUsers;
+
+      var currentLevel = calculateCurrentLevel(balance, totalEffectiveUsers);
+      var nextLevel = getNextLevel(currentLevel);
+
+      var pillSpan = document.querySelector(".current-level-pill span");
+      if (pillSpan) {
+        pillSpan.textContent = "Current Member Level:" + currentLevel;
+      }
+
+      var nextLevelEl = document.querySelector(".next-level");
+      if (nextLevelEl) {
+        if (nextLevel) {
+          nextLevelEl.textContent = "Next Level:" + nextLevel;
+        } else {
+          nextLevelEl.textContent = "Max Level";
+        }
+      }
+
+      var sections = document.querySelectorAll(".vip-section");
+      sections.forEach(function (sec) {
+        var level = sec.getAttribute("data-level");
+        var rules = rulesByLevel[level];
+        if (!rules) return;
+
+        var statValues = sec.querySelectorAll(".stat-card .stat-value");
+        if (statValues.length >= 2) {
+          statValues[0].textContent = balance + "/" + rules.minBalance;
+
+          var prevIndex = levelOrder.indexOf(level) - 1;
+          var prevLevelName = prevIndex >= 1 ? levelOrder[prevIndex] : null;
+          var prevTotal = prevLevelName && rulesByLevel[prevLevelName]
+            ? rulesByLevel[prevLevelName].minUsersTotal
+            : 0;
+
+          var requiredIncrement = rules.minUsersTotal - prevTotal;
+          if (requiredIncrement < 0) requiredIncrement = 0;
+
+          var gainedForThisLevel = totalEffectiveUsers - prevTotal;
+          if (gainedForThisLevel < 0) gainedForThisLevel = 0;
+          if (gainedForThisLevel > requiredIncrement) gainedForThisLevel = requiredIncrement;
+
+          if (requiredIncrement === 0) {
+            // No requirement for this level (مثل V1)، اعرض فقط إجمالي عدد المستخدمين الفعّالين
+            statValues[1].textContent = totalEffectiveUsers + "/0";
+          } else {
+            // Display total effective users against this level's required count
+            statValues[1].textContent = totalEffectiveUsers + "/" + requiredIncrement;
+          }
+        }
+
+        var lockedLabel = sec.querySelector(".vip-locked");
+        if (lockedLabel) {
+          var achieved = false;
+          if (rules.minUsersTotal === 0) {
+            achieved = balance >= rules.minBalance;
+          } else {
+            achieved = balance >= rules.minBalance && totalEffectiveUsers >= rules.minUsersTotal;
+          }
+
+          if (achieved && (level === currentLevel || level === "V1" || level === "V2" || level === "V3")) {
+            lockedLabel.textContent = "Unlocked";
+          } else {
+            lockedLabel.textContent = "Locked at this Level";
+          }
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", applyVipLogic);
+    } else {
+      applyVipLogic();
+    }
+  })();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="sb-balance.js"></script><script src="wallet.js"></script><script src="common-nav.js"></script></body>
+</html>

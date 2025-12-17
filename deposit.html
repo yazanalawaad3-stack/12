@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Deposit</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      background-color: #05070b;
+      color: #ffffff;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .page {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    .header {
+      height: 44px;
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      flex-shrink: 0;
+    }
+
+    .header-left {
+      width: 40px;
+      display: flex;
+      align-items: center;
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .back-icon {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .header-title {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .header-right {
+      width: 40px;
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .bill-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+    }
+
+    .bill-icon {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+
+    .main {
+      flex: 1;
+      padding: 10px 12px 24px;
+      overflow-y: auto;
+    }
+
+    .tip-banner a {
+      color: #00d1ff;
+      text-decoration: none;
+    }
+
+    .section-label {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      margin-bottom: 6px;
+      margin-top: 4px;
+    }
+
+    .currency-box {
+      height: 40px;
+      border-radius: 8px;
+      background-color: #101b20;
+      padding: 0 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 14px;
+    }
+
+    .currency-arrow {
+      width: 8px;
+      height: 8px;
+      border-left: 2px solid rgba(255, 255, 255, 0.7);
+      border-bottom: 2px solid rgba(255, 255, 255, 0.7);
+      transform: rotate(-45deg);
+    }
+
+    .network-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .network-btn {
+      flex: 1;
+      height: 36px;
+      border-radius: 8px;
+      background-color: #101b20;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.85);
+      border: 1px solid transparent;
+    }
+
+    .network-btn.active {
+      border-color: #00d1ff;
+      box-shadow: 0 0 0 1px rgba(0, 209, 255, 0.35);
+      color: #00d1ff;
+    }
+
+    .qr-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .qr-box {
+      width: 190px;
+      height: 190px;
+      padding: 10px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      margin-bottom: 8px;
+    }
+
+    .qr-inner {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: contain;
+    }
+
+    .qr-caption {
+      font-size: 11px;
+      color: rgba(255, 255, 255, 0.7);
+      text-align: center;
+    }
+
+    .address-box {
+      height: 44px;
+      border-radius: 8px;
+      background-color: #182334;
+      padding: 0 10px;
+      margin-bottom: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .address-text {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      padding-right: 10px;
+    }
+
+    .copy-btn {
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .copy-btn img {
+      width: 16px;
+      height: 16px;
+      display: block;
+    }
+
+    .reminder-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+
+    .reminder-list {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.75);
+      line-height: 1.5;
+      padding-left: 16px;
+    }
+
+    .reminder-list li {
+      margin-bottom: 6px;
+    }
+
+    .highlight {
+      color: #00d1ff;
+    }
+  
+    .copy-top-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .currency-modal-mask {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+      display: none;
+      z-index: 50;
+    }
+
+    .currency-modal-mask.show {
+      display: block;
+    }
+
+    .currency-modal {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      transform: translateY(100%);
+      background-color: #050811;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      padding: 12px 16px 20px;
+      z-index: 51;
+      transition: transform 0.2s ease-out;
+    }
+
+    .currency-modal.show {
+      transform: translateY(0);
+    }
+
+    .currency-modal-header {
+      font-size: 14px;
+      text-align: center;
+      margin-bottom: 12px;
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .currency-option-list {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .currency-option {
+      height: 42px;
+      border-radius: 10px;
+      background-color: #172133;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .currency-option:active {
+      background-color: #1f2b40;
+    }
+
+    .currency-left {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .currency-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: block;
+    }
+
+    .currency-option {
+      justify-content: flex-start;
+      padding: 0 16px;
+      gap: 8px;
+    }
+
+    .currency-option-icon {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      display: block;
+      margin-right: 8px;
+    }
+
+</style>
+</head>
+<body>
+<div class="page">
+<div class="header">
+<div class="header-left">
+<a aria-label="Back" class="back-btn" href="javascript:history.back();">
+<span class="back-icon"></span>
+</a>
+</div>
+<div class="header-title">Deposit</div>
+<div class="header-right">
+<a class="bill-link" href="bills.html">
+<img alt="Bills" class="bill-icon" src="images/bills-icon.png"/>
+</a>
+</div>
+</div>
+<div class="main">
+<div class="section-label">Deposit Currency</div>
+<div class="currency-box">
+<div class="currency-left">
+<img alt="USDT" class="currency-icon" src="images/usdt.png"/>
+<span class="currency-text">USDT</span>
+</div>
+</div>
+<div class="section-label">Deposit Network</div>
+<div class="network-row">
+<div class="network-btn active">BEP20</div>
+<div class="network-btn">TRC20</div>
+<div class="network-btn">ERC20</div>
+</div>
+<div class="qr-wrapper">
+<div class="qr-box">
+<img alt="Deposit QR Code" class="qr-inner" id="depositQr" src="images/deposit-qr.png"/>
+</div>
+<div class="qr-caption">
+          This address only supports deposits of BEP20 USDT
+        </div>
+</div>
+<div class="section-label">Deposit Address</div>
+<div class="address-box">
+<div class="address-text">Loading...</div>
+<button class="copy-btn" type="button">
+<img alt="Copy" src="images/back-icon-D2ne3Npi.png"/>
+</button>
+</div>
+<div class="reminder-title">Friendly Reminder</div>
+<ol class="reminder-list">
+<li>Please do not recharge any USDT currency that is not a BEP20 network to the above address, otherwise the assets will not be retrieved.</li>
+<li>After you recharge to the above address, the entire network node needs to confirm, and the payment will be made after the network confirms.</li>
+<li>The minimum recharge amount is: <span class="highlight">0.1 USDT</span>. Recharge amounts less than the minimum amount will not be posted to the account and cannot be refunded.</li>
+<li>Each time you recharge, you need to go to the recharge page to check the latest address, which will be updated from time to time.</li>
+<li>Be sure to confirm the security of your computer and browser to prevent information from being tampered with or leaked.</li>
+<li>Please do not deposit NFT to this address.</li>
+<li>Recharge through smart contracts is not supported. Do not recharge USDT through ERC20, Arbitrum and Optimism networks.</li>
+</ol>
+</div>
+
+
+
+<script>
+  (function() {
+    var SUPABASE_URL = (window.SB_CONFIG && window.SB_CONFIG.url) ? window.SB_CONFIG.url : "https://oyowsjjmaesspqiknvhp.supabase.co";
+    var SUPABASE_ANON_KEY = (window.SB_CONFIG && window.SB_CONFIG.anonKey) ? window.SB_CONFIG.anonKey : "";
+
+    var EDGE_FUNCTION = (window.DEPOSIT_EDGE_FUNCTION || "generate-deposit-address");
+
+    // No hardcoded fallback addresses.
+    // We render a "loading" placeholder until the backend returns the per-user address.
+    var networkConfigs = {
+      "BEP20": { address: "" },
+      "TRC20": { address: "" },
+      "ERC20": { address: "" }
+    };
+
+    window.depositNetworkConfigs = networkConfigs;
+
+    var currentCurrency = "USDT";
+    var qrImgEl = document.getElementById("depositQr");
+    var addressTextEl = document.querySelector(".address-text");
+    var qrCaptionEl = document.querySelector(".qr-caption");
+    var networkButtons = document.querySelectorAll(".network-btn");
+
+    function placeholderQrDataUri() {
+      // Simple offline placeholder with a center circle (connection/loaded indicator)
+      var svg = "" +
+        "<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'>" +
+        "<rect width='220' height='220' fill='#fff'/>" +
+        "<rect x='10' y='10' width='200' height='200' rx='12' fill='none' stroke='#d9d9d9' stroke-width='2'/>" +
+        "<circle cx='110' cy='110' r='26' fill='#fff' stroke='#111' stroke-width='6'/>" +
+        "<circle cx='110' cy='110' r='10' fill='#111'/>" +
+        "</svg>";
+      return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(svg);
+    }
+
+    function updateQr(address) {
+      if (!qrImgEl) return;
+      var data = address ? String(address).trim() : "";
+      if (!data) {
+        qrImgEl.src = placeholderQrDataUri();
+        return;
+      }
+      var url = "https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=" + encodeURIComponent(data);
+      qrImgEl.src = url;
+    }
+
+    function updateAddress(network) {
+      var config = networkConfigs[network];
+      if (!config || !addressTextEl || !qrCaptionEl) return;
+
+      var addr = (config.address || "").trim();
+
+      if (!addr) {
+        addressTextEl.textContent = "Loading...";
+        updateQr("");
+        qrCaptionEl.textContent = "Fetching " + network + " " + currentCurrency + " address...";
+        return;
+      }
+
+      addressTextEl.textContent = addr;
+      updateQr(addr);
+      qrCaptionEl.textContent = "This address only supports deposits of " + network + " " + currentCurrency;
+    }
+
+    function setActiveNetwork(network) {
+      networkButtons.forEach(function(b) {
+        if ((b.textContent || "").trim() === network) b.classList.add("active");
+        else b.classList.remove("active");
+      });
+      updateAddress(network);
+    }
+
+    networkButtons.forEach(function(btn) {
+      btn.addEventListener("click", function() {
+        var network = (btn.textContent || "").trim();
+        if (!networkConfigs[network]) return;
+        setActiveNetwork(network);
+      });
+    });
+
+    function getCurrentSupabaseUserId() {
+      try {
+        if (window.ExaAuth && typeof window.ExaAuth.ensureSupabaseUserId === "function") {
+          return window.ExaAuth.ensureSupabaseUserId().then(function (id) {
+            return id ? String(id) : "";
+          });
+        }
+      } catch (e) {}
+      return Promise.resolve("");
+    }
+
+    function fetchDepositAddresses() {
+      getCurrentSupabaseUserId().then(function (userId) {
+        if (!userId) return;
+
+        var fnUrl = https://oyowsjjmaesspqiknvhp.supabase.co + "/functions/v1/" + EDGE_FUNCTION;
+
+        return fetch(fnUrl, {
+          method: "POST",
+          headers: {
+            "apikey": eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95b3dzamptYWVzc3BxaWtudmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MTE4NzcsImV4cCI6MjA4MTM4Nzg3N30.aBo32xNG_dh1QD7NBI4N6jhYFLY42Xyxer2DNXxJi-w,
+            "Authorization": "Bearer " + eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im95b3dzamptYWVzc3BxaWtudmhwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjU4MTE4NzcsImV4cCI6MjA4MTM4Nzg3N30.aBo32xNG_dh1QD7NBI4N6jhYFLY42Xyxer2DNXxJi-w,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ user_id: userId })
+        })
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+        if (!data) return;
+        var addrs = data.addresses || null;
+        // Some deployments may return {network, address} when a single network is requested
+        if (!addrs && data.network && data.address) {
+          addrs = {};
+          addrs[String(data.network)] = String(data.address);
+        }
+        if (!addrs) return;
+
+        Object.keys(addrs).forEach(function(net) {
+          if (!networkConfigs[net]) return;
+          var a = addrs[net];
+          if (a) networkConfigs[net].address = String(a);
+        });
+
+        // Refresh currently selected network
+        var activeBtn = document.querySelector(".network-btn.active");
+        var activeNetwork = activeBtn ? (activeBtn.textContent || "").trim() : "BEP20";
+        updateAddress(activeNetwork);
+        })
+        .catch(function() {
+          // silent - fallback addresses stay in place
+        });
+      });
+    }
+
+    // Init
+    setActiveNetwork("BEP20");
+    fetchDepositAddresses();
+  })();
+</script>
+<script>
+  (function () {
+    if (!window.DemoWallet) return;
+
+    var POLL_INTERVAL_MS = 20000; // 20 seconds
+    var lastSeenKey = null;
+    var timerId = null;
+
+    function getCurrentCurrency() {
+      var currencyEl = document.querySelector(".currency-text");
+      return (currencyEl && currencyEl.textContent ? currencyEl.textContent.trim() : "USDT");
+    }
+
+    function getBep20Address() {
+      if (!window.depositNetworkConfigs || !window.depositNetworkConfigs.BEP20) return null;
+      return window.depositNetworkConfigs.BEP20.address || null;
+    }
+
+    function getLastSeenHashKey(address) {
+      return "last_seen_bep20_tx_" + address.toLowerCase();
+    }
+
+    function readLastSeenHash(address) {
+      try {
+        var k = getLastSeenHashKey(address);
+        return window.localStorage.getItem(k);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    function writeLastSeenHash(address, hash) {
+      try {
+        var k = getLastSeenHashKey(address);
+        window.localStorage.setItem(k, hash);
+      } catch (e) {}
+    }
+
+    function pollBep20Deposits() {
+      if (typeof BSC_SCAN_API_KEY === "undefined" || !BSC_SCAN_API_KEY || BSC_SCAN_API_KEY === "PUT_YOUR_BSCSCAN_API_KEY_HERE") {
+        return;
+      }
+      var addr = getBep20Address();
+      if (!addr) return;
+      var addrLower = addr.toLowerCase();
+
+      var url = "https://api.bscscan.com/api"
+        + "?module=account&action=tokentx"
+        + "&sort=desc"
+        + "&address=" + encodeURIComponent(addrLower)
+        + "&apikey=" + encodeURIComponent(BSC_SCAN_API_KEY);
+
+      fetch(url)
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          if (!data || data.status !== "1" || !data.result || !data.result.length) {
+            return;
+          }
+          var tx = data.result[0];
+          if (!tx.to) return;
+          if (tx.to.toLowerCase() !== addrLower) return;
+
+          var lastSeen = readLastSeenHash(addrLower);
+          if (!lastSeen) {
+            // أول مرة نرى هذا العنوان، نخزن آخر معاملة ولا نضيف رصيد
+            writeLastSeenHash(addrLower, tx.hash);
+            return;
+          }
+          if (lastSeen === tx.hash) {
+            // لا يوجد إيداع جديد
+            return;
+          }
+
+          // معاملة جديدة: نحسب المبلغ ونحدث الرصيد
+          writeLastSeenHash(addrLower, tx.hash);
+
+          var decimals = parseInt(tx.tokenDecimal || "18", 10);
+          var raw = tx.value || "0";
+          var amount = 0;
+          try {
+            var len = raw.length;
+            if (decimals >= len) {
+              var s = "0." + "0".repeat(decimals - len) + raw;
+              amount = parseFloat(s);
+            } else {
+              var intPart = raw.slice(0, len - decimals);
+              var fracPart = raw.slice(len - decimals);
+              var s2 = intPart + "." + fracPart;
+              amount = parseFloat(s2);
+            }
+          } catch (e) {
+            return;
+          }
+          if (!amount || !isFinite(amount) || amount <= 0) return;
+
+          var currency = getCurrentCurrency() || "USDT";
+
+          try {
+            // نضيف الرصيد محلياً في المحفظة
+            window.DemoWallet.recordDeposit(amount, currency);
+          } catch (e) {
+            if (console && console.error) console.error("recordDeposit error", e);
+          }
+
+          try {
+            // نسجل الإيداع أيضاً في Supabase باستخدام tx.hash
+            if (window.DemoWallet.submitDepositTx) {
+              window.DemoWallet.submitDepositTx(tx.hash, "BEP20", currency);
+            }
+          } catch (e) {
+            if (console && console.error) console.error("submitDepositTx error", e);
+          }
+
+          try {
+            alert("New BEP20 deposit detected: +" + amount + " " + currency);
+          } catch (e) {}
+        })
+        .catch(function (err) {
+          if (typeof console !== "undefined" && console && console.error) {
+            console.error("BEP20 auto poll error", err);
+          }
+        });
+    }
+
+    function startPolling() {
+      if (timerId) return;
+      timerId = window.setInterval(pollBep20Deposits, POLL_INTERVAL_MS);
+      // أول مرة بعد ثانيتين
+      window.setTimeout(pollBep20Deposits, 2000);
+    }
+
+    // نبدأ المراقبة تلقائياً عندما يفتح المستخدم صفحة الإيداع
+    startPolling();
+  })();
+</script>
+</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="common-nav.js"></script></body>
+</html>

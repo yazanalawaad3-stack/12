@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"/>
+<title>Sign Up</title>
+<style>
+    :root {
+      --page-bg: #05070b;
+      --card-bg: #05070b;
+      --field-bg: #17202d;
+      --prefix-bg: #0e131b;
+      --border-color: #343b48;
+      --text-main: #ffffff;
+      --text-muted: #7b8593;
+      --primary-gradient-start: #27C6FF;
+      --primary-gradient-end: #46EEAC;
+      --link-color: #1ea7ff;
+      --error-color: #ff4d4f;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .page {
+      min-height: 100vh;
+      background-color: var(--page-bg);
+      color: var(--text-main);
+    }
+
+    .hero {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .hero img.hero-bg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .hero-button {
+      position: absolute;
+      top: 14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: rgba(5, 10, 18, 0.8);
+      backdrop-filter: blur(6px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .hero-button.back {
+      left: 12px;
+    }
+
+    .hero-button.support {
+      right: 12px;
+    }
+
+    .back-arrow {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
+    }
+
+    .support-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .support-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .field {
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      font-size: 13px;
+      color: var(--text-main);
+      margin-bottom: 6px;
+    }
+
+    .phone-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .prefix-box {
+      min-width: 96px;
+      height: 48px;
+      border-radius: 8px;
+      padding: 0 12px;
+      background-color: var(--prefix-bg);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .arrow-down {
+      width: 8px;
+      height: 8px;
+      border-left: 2px solid #ffffffd9;
+      border-bottom: 2px solid #ffffffd9;
+      transform: rotate(-45deg);
+      margin-left: 6px;
+    }
+
+    .input-field {
+      width: 100%;
+      height: 48px;
+      border-radius: 8px;
+      background-color: var(--field-bg);
+      border: 1px solid var(--border-color);
+      padding: 0 16px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+    }
+
+    .password-wrapper {
+      position: relative;
+      margin-bottom: 4px;
+    }
+
+    .password-wrapper input {
+      width: 100%;
+      padding-right: 44px;
+    }
+
+    .toggle-password {
+      position: absolute;
+      top: 50%;
+      right: 14px;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(10, 15, 24, 0.8);
+      padding: 0;
+      transition: transform 0.12s ease, box-shadow 0.12s ease;
+      cursor: pointer;
+    }
+
+    .toggle-password:active {
+      transform: translateY(-50%) scale(0.94);
+    }
+
+    .toggle-password .eye-icon {
+      width: 14px;
+      height: 14px;
+      display: block;
+    }
+
+    .verification-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .verification-display {
+      min-width: 120px;
+      height: 48px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: var(--prefix-bg);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 10px 0 14px;
+      font-size: 16px;
+      letter-spacing: 2px;
+    }
+
+    #generated-code {
+      font-weight: 600;
+    }
+
+    .refresh-code-btn {
+      border: none;
+      background: transparent;
+      padding: 0;
+      margin-left: 8px;
+      width: 20px;
+      height: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .refresh-code-btn img {
+      width: 18px;
+      height: 18px;
+      display: block;
+    }
+
+    .helper-text {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: 4px;
+    }
+
+    .login-btn {
+      width: 100%;
+      height: 48px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      font-size: 16px;
+      font-weight: 500;
+      color: #000000d9;
+      background: linear-gradient(90deg, #27C6FF 0%, #46EEAC 100%);
+      margin-top: 10px;
+      margin-bottom: 14px;
+      text-align: center;
+      line-height: 48px;
+      cursor: pointer;
+      transition: opacity 0.2s ease, transform 0.1s ease;
+    }
+
+    .login-btn.login-btn--disabled {
+      background: linear-gradient(90deg, #0B2F3B 0%, #101B20 100%);
+      color: rgba(255, 255, 255, 0.45);
+      opacity: 1;
+      cursor: not-allowed;
+    }
+
+    .login-btn.login-btn--enabled:active {
+      transform: translateY(1px);
+    }
+
+    .terms {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.5;
+      margin-bottom: 18px;
+    }
+
+    .terms a {
+      color: var(--link-color);
+      text-decoration: none;
+    }
+
+    .signup {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .signup a {
+      color: var(--link-color);
+      text-decoration: none;
+      margin-left: 4px;
+    }
+
+    .signup a:active,
+    .signup a:focus-visible {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 480px) {
+      .page {
+        max-width: 480px;
+        margin: 0 auto;
+      }
+    }
+
+    .area-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      z-index: 999;
+    }
+
+    .area-modal.open {
+      display: block;
+    }
+
+    .area-modal-mask {
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.6);
+    }
+
+    .area-modal-panel {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: #0E131B;
+      border-radius: 16px 16px 0 0;
+      padding: 10px 12px 16px;
+      max-height: 45vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .area-modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 4px 4px 8px;
+      font-size: 14px;
+      color: #ffffff;
+    }
+
+    .area-modal-header-title {
+      font-weight: 500;
+    }
+
+    .area-close {
+      border: none;
+      outline: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.75);
+      font-size: 20px;
+      padding: 0 4px;
+      cursor: pointer;
+    }
+
+    .area-search {
+      margin: 4px 0 8px;
+    }
+
+    .area-search-input {
+      width: 100%;
+      height: 40px;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: #0A0F18;
+      color: #ffffff;
+      padding: 0 12px;
+      font-size: 13px;
+    }
+
+    .area-search-input::placeholder {
+      color: rgba(255, 255, 255, 0.35);
+    }
+
+    .area-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-top: 4px;
+    }
+
+    .area-section-title {
+      font-size: 12px;
+      color: rgba(255, 255, 255, 0.5);
+      padding: 4px 4px 6px;
+    }
+
+    .country-option {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 10px;
+      font-size: 13px;
+      color: #ffffff;
+      cursor: pointer;
+    }
+
+    .country-option:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+    }
+
+    .country-option-name {
+      max-width: 70%;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .country-option-code {
+      color: rgba(255, 255, 255, 0.65);
+      margin-left: 8px;
+      white-space: nowrap;
+    }
+
+    @media (min-width: 768px) {
+      .area-modal-panel {
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 420px;
+        border-radius: 16px;
+      }
+    }
+
+    .input-error {
+      border-color: var(--error-color) !important;
+      box-shadow: 0 0 0 1px rgba(255, 77, 79, 0.35);
+    }
+
+    .toast-message {
+      position: fixed;
+      left: 50%;
+      top: 220px;
+      transform: translate(-50%, -10px);
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(255, 77, 79, 0.96);
+      color: #ffffff;
+      font-size: 13px;
+      line-height: 1.4;
+      max-width: 90%;
+      text-align: center;
+      z-index: 1200;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+    }
+
+    .toast-message.toast-visible {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+<header class="hero">
+<img alt="Background" class="hero-bg" src="images/login-bg-h5.png"/>
+<button class="hero-button back" type="button">
+<span class="back-arrow"></span>
+</button>
+<button class="hero-button support" type="button">
+<span class="support-icon">
+<img alt="Support" src="images/customer-service.png"/>
+</span>
+</button>
+</header>
+<main class="content">
+<h1 class="title">Sign Up</h1>
+<div class="field">
+<div class="field-label">Phone</div>
+<div class="phone-row">
+<button class="prefix-box" type="button">
+<span>+386</span>
+<span class="arrow-down"></span>
+</button>
+<input autocomplete="tel" class="input-field" id="phone-input" placeholder="Enter phone" type="tel"/>
+</div>
+</div>
+<div class="field">
+<div class="field-label">Password</div>
+<div class="password-wrapper">
+<input autocomplete="new-password" class="input-field" id="password-input" placeholder="At least 8 characters" type="password"/>
+<button class="toggle-password" data-target="password-input" type="button">
+<img alt="Toggle password visibility" class="eye-icon" src="images/password-eye-closed.png"/>
+</button>
+</div>
+</div>
+<div class="field">
+<div class="field-label">Confirm Password</div>
+<div class="password-wrapper">
+<input autocomplete="new-password" class="input-field" id="confirm-password-input" placeholder="Confirm password" type="password"/>
+<button class="toggle-password" data-target="confirm-password-input" type="button">
+<img alt="Toggle password visibility" class="eye-icon" src="images/password-eye-closed.png"/>
+</button>
+</div>
+</div>
+<div class="field">
+<div class="field-label">Invitation Code</div>
+<input class="input-field" id="invitation-code-input" placeholder="Enter invitation code" type="text"/>
+</div>
+<div class="field">
+<div class="field-label">Verification Code</div>
+<div class="verification-row">
+<input class="input-field" id="verification-code-input" placeholder="Enter verification code" type="text"/>
+<div class="verification-display">
+<span id="generated-code">000000</span>
+<button aria-label="Refresh verification code" class="refresh-code-btn" type="button">
+<img alt="Refresh" src="images/reseticon-DvFfY0b1.png"/>
+</button>
+</div>
+</div>
+<div class="helper-text">Enter the code shown on the right.</div>
+</div>
+<button class="login-btn login-btn--disabled sign-up-btn" type="button">
+        Sign Up
+      </button>
+<p class="terms">
+        By signing up, I agree to the
+        <a href="#">Service Agreement</a>
+        and
+        <a href="#">Privacy Policy</a>.
+      </p>
+<p class="signup">
+        Already have an account?
+        <a href="login.html">Log In</a>
+</p>
+</main>
+</div>
+<div aria-hidden="true" class="area-modal">
+<div class="area-modal-mask"></div>
+<div class="area-modal-panel">
+<div class="area-modal-header">
+<span class="area-modal-header-title">Select area code</span>
+<button class="area-close" type="button">×</button>
+</div>
+<div class="area-search">
+<input class="area-search-input" placeholder="Please search for the international dialing code" type="text"/>
+</div>
+<div class="area-list">
+<!-- populated by JS -->
+</div>
+</div>
+</div>
+<div class="toast-message" id="form-toast"></div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  // ---- Nav buttons ----
+  var backBtn = document.querySelector(".hero-button.back");
+  if (backBtn) {
+    backBtn.addEventListener("click", function () {
+      if (window.history.length > 1) window.history.back();
+      else window.location.href = "mine.html";
+    });
+  }
+  var supportBtn = document.querySelector(".hero-button.support");
+  if (supportBtn) supportBtn.addEventListener("click", function () {
+    window.location.href = "help-center.html";
+  });
+
+  // ---- Elements ----
+  var phoneInput = document.getElementById("phone-input");
+  var passwordInput = document.getElementById("password-input");
+  var confirmPasswordInput = document.getElementById("confirm-password-input");
+  var invitationInput = document.getElementById("invitation-code-input");
+  var verificationInput = document.getElementById("verification-code-input");
+  var signUpBtn = document.querySelector(".sign-up-btn");
+  var prefixBox = document.querySelector(".prefix-box");
+  var prefixValue = prefixBox ? prefixBox.querySelector("span") : null;
+
+  var generatedCodeSpan = document.getElementById("generated-code");
+  var refreshCodeBtn = document.querySelector(".refresh-code-btn");
+  var toastEl = document.getElementById("form-toast");
+
+  // ---- Supabase ----
+  // Supabase is handled inside auth.js (ExaAuth.registerWithInvite)
+
+  // ---- Helpers ----
+  function showToast(msg) {
+    if (!toastEl) { alert(msg); return; }
+    toastEl.textContent = msg;
+    toastEl.classList.add("toast-visible");
+    clearTimeout(showToast._t);
+    showToast._t = setTimeout(function () {
+      toastEl.classList.remove("toast-visible");
+    }, 2200);
+  }
+
+  function getPhoneDigits(v) {
+    return String(v || "").replace(/\D/g, "");
+  }
+
+  function generateVerificationCode() {
+    var code = Math.floor(100000 + Math.random() * 900000).toString();
+    generatedCodeSpan.textContent = code;
+    return code;
+  }
+
+  function setBtnEnabled(enabled) {
+    if (!signUpBtn) return;
+    signUpBtn.classList.toggle("login-btn--disabled", !enabled);
+    signUpBtn.classList.toggle("login-btn--enabled", enabled);
+  }
+
+  function validateBasic() {
+    var digits = getPhoneDigits(phoneInput && phoneInput.value);
+    var p1 = passwordInput ? passwordInput.value : "";
+    var p2 = confirmPasswordInput ? confirmPasswordInput.value : "";
+    var inv = invitationInput ? invitationInput.value.trim() : "";
+    return digits.length >= 5 && p1.length >= 8 && p1 === p2 && inv.length >= 4;
+  }
+
+  // ---- Password eye toggle ----
+  document.querySelectorAll(".toggle-password").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      var id = btn.getAttribute("data-target");
+      var input = document.getElementById(id);
+      if (!input) return;
+      var isPass = input.type === "password";
+      input.type = isPass ? "text" : "password";
+      var img = btn.querySelector("img");
+      if (img) img.src = isPass ? "images/password-eye-open.png" : "images/password-eye-closed.png";
+    });
+  });
+
+  // ---- Prefill invitation code from URL (?code=XXXX) ----
+  try {
+    var params = new URLSearchParams(window.location.search || "");
+    var code = (params.get("code") || "").trim();
+    if (code && invitationInput) invitationInput.value = code;
+  } catch (e) {}
+
+  // ---- Verification code ----
+  var generatedCode = generateVerificationCode();
+  if (refreshCodeBtn) {
+    refreshCodeBtn.addEventListener("click", function () {
+      generatedCode = generateVerificationCode();
+    });
+  }
+
+  // ---- Enable button when ready ----
+  ["input", "change"].forEach(function (evt) {
+    [phoneInput, passwordInput, confirmPasswordInput, invitationInput, verificationInput].forEach(function (el) {
+      if (!el) return;
+      el.addEventListener(evt, function () { setBtnEnabled(validateBasic()); });
+    });
+  });
+  setBtnEnabled(validateBasic());
+
+  // ---- Signup ----
+  if (signUpBtn) {
+    signUpBtn.addEventListener("click", async function () {
+      var digits = getPhoneDigits(phoneInput && phoneInput.value);
+      var p1 = passwordInput ? passwordInput.value : "";
+      var p2 = confirmPasswordInput ? confirmPasswordInput.value : "";
+      var invCode = (invitationInput ? invitationInput.value : "").trim();
+      var userCode = (verificationInput ? verificationInput.value : "").trim();
+
+      if (!digits) return showToast("Please enter phone.");
+      if (p1.length < 8) return showToast("Password must be at least 8 characters.");
+      if (p1 !== p2) return showToast("Passwords do not match.");
+      if (!invCode) return showToast("Please enter invitation code.");
+      if (userCode !== generatedCode) return showToast("Verification code incorrect.");
+
+      // prevent double click
+      signUpBtn.disabled = true;
+
+      try {
+        var areaCodeVal = prefixValue ? String(prefixValue.textContent || "").trim() : "";
+        var phoneFull = (window.ExaAuth && window.ExaAuth.fullPhone) ? window.ExaAuth.fullPhone(areaCodeVal, digits) : (areaCodeVal + digits);
+
+        if (!window.ExaAuth || typeof window.ExaAuth.registerWithInvite !== "function") {
+          throw new Error("Auth service not loaded.");
+        }
+
+        var created = await window.ExaAuth.registerWithInvite({
+          phone: phoneFull,
+          usedInviteCode: invCode
+        });
+
+        // device-only password store (optional)
+        try {
+          if (created && created.id) localStorage.setItem("pw:" + created.id, p1);
+        } catch (e) {}
+
+        window.location.href = "my-assets.html";
+      } catch (err) {
+        console && console.error && console.error("Signup error:", err);
+        showToast((err && err.message) ? err.message : "Signup failed. Please try again.");
+        signUpBtn.disabled = false;
+      }
+
+    });
+  }
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="common-nav.js"></script></body>
+</html>
