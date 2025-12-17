@@ -793,14 +793,16 @@
 </div>
 </div>
 </div>
+
 <div class="run-modal-backdrop" id="runModal">
-<div class="run-modal">
-<div class="run-modal-title">Running task…</div>
-<div class="run-modal-text">Please wait while your AI power task is running.</div>
-<div class="run-modal-spinner"></div>
-<div class="run-modal-countdown" id="runModalCountdown">8s</div>
+  <div class="run-modal">
+    <div class="run-modal-title">Running task…</div>
+    <div class="run-modal-text">Please wait while your AI power task is running.</div>
+    <div class="run-modal-spinner"></div>
+    <div class="run-modal-countdown" id="runModalCountdown">8s</div>
+  </div>
 </div>
-</div>
+
 <div class="tabbar">
 <div class="tab-item">
 <div class="tab-icon-circle"></div>
@@ -824,6 +826,10 @@
 </div>
 </div>
 
+<!-- Load Supabase configuration -->
+<script src="sb-config.js"></script>
+<!-- Wallet helpers -->
+<script src="wallet.js"></script>
 <script>
   
   (function() {
@@ -1258,6 +1264,9 @@ var todayStr = new Date().toISOString().slice(0, 10);
   })();
 </script>
 
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="wallet.js"></script><script src="common-nav.js"></script></body>
+<!-- Authentication helpers -->
+<script src="auth.js"></script>
+<!-- Enforce login redirects -->
+<script src="common-nav.js"></script>
+</body>
 </html>

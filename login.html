@@ -845,7 +845,13 @@
     });
   </script>
 
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- Load Supabase configuration first -->
+<script src="sb-config.js"></script>
+<!-- Authentication helpers -->
+<script src="auth.js"></script>
+<!-- Enforce login redirects on protected pages -->
+<script src="common-nav.js"></script>
 <div aria-hidden="true" class="area-modal">
 <div class="area-modal-mask"></div>
 <div class="area-modal-panel">
@@ -862,5 +868,5 @@
 </div>
 </div>
 <div class="toast-message" id="form-toast"></div>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="common-nav.js"></script></body>
+</body>
 </html>

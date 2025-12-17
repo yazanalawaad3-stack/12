@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<title>Account Information</title>
-<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<style>
+  <meta charset="UTF-8" />
+  <title>Account Information</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <style>
     :root {
       --page-bg: #0C0B10;
       --card-bg: #17202D;
@@ -245,78 +244,91 @@
   </style>
 </head>
 <body>
-<div class="app">
-<header class="app-header">
-<a class="back-btn" href="javascript:history.back()">
-<div class="back-arrow"></div>
-</a>
-<div class="app-header-title">Account Information</div>
-</header>
-<main class="app-main">
-<section class="content">
-<!-- Card 1 -->
-<section class="card">
-<div class="row">
-<div class="label">Profile Picture</div>
-<div class="avatar-wrapper">
-<div class="avatar">
-<img alt="Avatar" src="images/account-avatar.png"/>
-</div>
-<div class="chevron"></div>
-</div>
-</div>
-<div class="row">
-<div class="label">ID</div>
-<div class="value copy-wrapper">
-<span id="user-id">90440407</span>
-<div class="copy-icon" id="copy-id"></div>
-</div>
-</div>
-<div class="row">
-<div class="label">Phone</div>
-<div class="value">
-<span class="value-link account-phone-value">70758137</span>
-</div>
-</div>
-</section>
-<!-- Card 2 -->
-<section class="card">
-<div class="row email-row">
-<div class="label">Email</div>
-<div class="value">
-<span class="value-link account-email-value">ieudhehehe@mozej.com</span>
-</div>
-</div>
-<div class="row">
-<div class="label">Registration Time</div>
-<div class="value">
-<span class="account-regtime-value">2025-11-29 16:44:43</span>
-</div>
-</div>
-</section>
-<!-- Card 3 -->
-<section class="card">
-<div class="row">
-<div class="label">Registration Method</div>
-<div class="value">
-<span class="account-regmethod-value">Phone</span>
-</div>
-</div>
-<div class="row">
-<div class="label">Invite Code</div>
-<div class="value copy-wrapper">
-<span id="invite-code">-</span>
-<div class="copy-icon" id="copy-invite-code"></div>
-</div>
-</div>
-</section>
-</section>
-</main>
-</div>
-<div class="toast-message" id="toast"></div>
+  <div class="app">
+    <header class="app-header">
+      <a href="javascript:history.back()" class="back-btn">
+        <div class="back-arrow"></div>
+      </a>
+      <div class="app-header-title">Account Information</div>
+    </header>
 
+    <main class="app-main">
+      <section class="content">
+        <!-- Card 1 -->
+        <section class="card">
+          <div class="row">
+            <div class="label">Profile Picture</div>
+            <div class="avatar-wrapper">
+              <div class="avatar">
+                <img src="images/account-avatar.png" alt="Avatar" />
+              </div>
+              <div class="chevron"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">ID</div>
+            <div class="value copy-wrapper">
+              <span id="user-id">90440407</span>
+              <div class="copy-icon" id="copy-id"></div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">Phone</div>
+            <div class="value">
+              <span class="value-link account-phone-value">70758137</span>
+            </div>
+          </div>
+        </section>
 
-<script>
+        <!-- Card 2 -->
+        <section class="card">
+          <div class="row email-row">
+            <div class="label">Email</div>
+            <div class="value">
+              <span class="value-link account-email-value">ieudhehehe@mozej.com</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="label">Registration Time</div>
+            <div class="value">
+              <span class="account-regtime-value">2025-11-29 16:44:43</span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Card 3 -->
+        <section class="card">
+          <div class="row">
+            <div class="label">Registration Method</div>
+            <div class="value">
+              <span class="account-regmethod-value">Phone</span>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="label">Invite Code</div>
+            <div class="value copy-wrapper">
+              <span id="invite-code">-</span>
+              <div class="copy-icon" id="copy-invite-code"></div>
+            </div>
+          </div>
+
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <div id="toast" class="toast-message"></div>
+
+  <!-- Load Supabase configuration -->
+  <script src="sb-config.js"></script>
+  <!-- Authentication helpers -->
+  <script src="auth.js"></script>
+  <!-- User profile helpers -->
+  <script src="sb-user.js"></script>
+  <!-- Enforce login redirects -->
+  <script src="common-nav.js"></script>
+  <script>
     
     // Load dynamic account data from demoCurrentUser + DemoWallet (if available)
     (function () {
@@ -460,5 +472,5 @@
     })();
 
   </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="sb-user.js"></script></body>
+</body>
 </html>

@@ -1,86 +1,103 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
-<title>Withdraw - EXARAI</title>
-<link href="withdraw-style.css" rel="stylesheet"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Withdraw - EXARAI</title>
+  <link rel="stylesheet" href="withdraw-style.css" />
 </head>
 <body>
-<div class="app">
-<header class="app-header">
-<a class="back-btn" href="javascript:history.back()">
-<div class="back-arrow"></div>
-</a>
-<div class="app-header-title">Withdraw</div>
-<div class="header-icon">⧉</div>
-</header>
-<main class="app-main">
-<div class="section-label">Withdrawal Currency</div>
-<div class="select-box" id="currencySelect">
-<span class="select-value" id="currencyValue">USDT</span>
-<span class="chevron">▾</span>
-</div>
-<div aria-hidden="true" class="dropdown-menu" id="currencyMenu">
-<button class="dropdown-item" data-currency="USDT" type="button">USDT</button>
-<button class="dropdown-item" data-currency="USDC" type="button">USDC</button>
-</div>
-<div class="section-label">Withdrawal Network</div>
-<div class="network-row" id="networkRow">
-<button class="network-pill active" data-network="TRC20" id="netTRC20" type="button">TRC20</button>
-<button class="network-pill" data-network="BEP20" id="netBEP20" style="display:none;" type="button">BEP20</button>
-<button class="network-pill" data-network="ERC20" id="netERC20" style="display:none;" type="button">ERC20</button>
-</div>
-<div class="section-label">Withdrawal Address</div>
-<div class="select-box address-row" id="addressSelect">
-<span class="select-placeholder" id="addressValue">Please select an address</span>
-<div class="address-icon">👤</div>
-<span class="chevron">▾</span>
-</div>
-<div aria-hidden="true" class="dropdown-menu" id="addressMenu">
-<!-- filled by JS -->
-</div>
-<button class="add-address-btn" id="addAddressBtn" type="button">Add address</button>
-<div class="section-label">Quantity</div>
-<div class="select-box qty-box">
-<input class="qty-input" id="qtyInput" min="0" placeholder="Enter Withdrawal Quantity" step="0.01" type="number"/>
-<div class="qty-right">
-<span class="qty-unit" id="qtyUnit">USDT</span>
-<span class="qty-max" id="maxLink">MAX</span>
-</div>
-</div>
-<div class="available-row">
-        Available <span class="value" id="availableVal">3.06 USDT</span>
-</div>
-<div class="info-card">
-<div class="info-row">
-<span>Minimum Withdrawal Quantity</span>
-<span><span id="minQty">20</span> <span class="unitLabel" id="minUnit">USDT</span></span>
-</div>
-<div class="info-row">
-<span>Withdrawal Fee</span>
-<span><span id="feeVal">0</span> <span class="unitLabel" id="feeUnit">USDT</span></span>
-</div>
-<div class="info-row">
-<span>Received Quantity</span>
-<span><span id="recvVal">0</span> <span class="unitLabel" id="recvUnit">USDT</span></span>
-</div>
-</div>
-<button class="withdraw-btn" id="withdrawBtn" type="button">Withdraw</button>
-<div class="reminder-title">Friendly Reminder</div>
-<ol class="reminder-list">
-<li>The minimum withdrawal amount is: <span class="reminder-em"><span id="reminderMin">20 USDT</span></span></li>
-<li>Withdrawal fee: <span class="reminder-em">5%</span></li>
-<li>Withdrawals will arrive within 2–120 hours.</li>
-<li>After completing <span class="reminder-em">6</span> AI computing power tasks, you can apply for withdrawal.</li>
-<li>Make sure your computer and browser are secure to prevent information from being tampered with or leaked.</li>
-<li>Before withdrawing coins, please confirm whether the withdrawal address is safe and corresponds to the current currency. Once the address of a non‑TRC20 network is used, the platform cannot help to retrieve it. Please check carefully before withdrawing coins.</li>
-</ol>
-</main>
-</div>
+  <div class="app">
+    <header class="app-header">
+      <a href="javascript:history.back()" class="back-btn">
+        <div class="back-arrow"></div>
+      </a>
+      <div class="app-header-title">Withdraw</div>
+      <div class="header-icon">⧉</div>
+    </header>
 
-<script>
+    <main class="app-main">
+      <div class="section-label">Withdrawal Currency</div>
+      <div class="select-box" id="currencySelect">
+        <span class="select-value" id="currencyValue">USDT</span>
+        <span class="chevron">▾</span>
+      </div>
+
+      <div class="dropdown-menu" id="currencyMenu" aria-hidden="true">
+        <button type="button" class="dropdown-item" data-currency="USDT">USDT</button>
+        <button type="button" class="dropdown-item" data-currency="USDC">USDC</button>
+      </div>
+
+      <div class="section-label">Withdrawal Network</div>
+      <div class="network-row" id="networkRow">
+        <button type="button" class="network-pill active" data-network="TRC20" id="netTRC20">TRC20</button>
+        <button type="button" class="network-pill" data-network="BEP20" id="netBEP20" style="display:none;">BEP20</button>
+        <button type="button" class="network-pill" data-network="ERC20" id="netERC20" style="display:none;">ERC20</button>
+      </div>
+
+      <div class="section-label">Withdrawal Address</div>
+      <div class="select-box address-row" id="addressSelect">
+        <span class="select-placeholder" id="addressValue">Please select an address</span>
+        <div class="address-icon">👤</div>
+        <span class="chevron">▾</span>
+      </div>
+
+
+      <div class="dropdown-menu" id="addressMenu" aria-hidden="true">
+        <!-- filled by JS -->
+      </div>
+
+      <button type="button" class="add-address-btn" id="addAddressBtn">Add address</button>
+
+      <div class="section-label">Quantity</div>
+      <div class="select-box qty-box">
+        <input class="qty-input" id="qtyInput" type="number" min="0" step="0.01"
+               placeholder="Enter Withdrawal Quantity" />
+        <div class="qty-right">
+          <span class="qty-unit" id="qtyUnit">USDT</span>
+          <span class="qty-max" id="maxLink">MAX</span>
+        </div>
+      </div>
+
+      <div class="available-row">
+        Available <span class="value" id="availableVal">3.06 USDT</span>
+      </div>
+
+      <div class="info-card">
+        <div class="info-row">
+          <span>Minimum Withdrawal Quantity</span>
+          <span><span id="minQty">20</span> <span class="unitLabel" id="minUnit">USDT</span></span>
+        </div>
+        <div class="info-row">
+          <span>Withdrawal Fee</span>
+          <span><span id="feeVal">0</span> <span class="unitLabel" id="feeUnit">USDT</span></span>
+        </div>
+        <div class="info-row">
+          <span>Received Quantity</span>
+          <span><span id="recvVal">0</span> <span class="unitLabel" id="recvUnit">USDT</span></span>
+        </div>
+      </div>
+
+      <button type="button" class="withdraw-btn" id="withdrawBtn">Withdraw</button>
+
+      <div class="reminder-title">Friendly Reminder</div>
+      <ol class="reminder-list">
+        <li>The minimum withdrawal amount is: <span class="reminder-em"><span id="reminderMin">20 USDT</span></span></li>
+        <li>Withdrawal fee: <span class="reminder-em">5%</span></li>
+        <li>Withdrawals will arrive within 2–120 hours.</li>
+        <li>After completing <span class="reminder-em">6</span> AI computing power tasks, you can apply for withdrawal.</li>
+        <li>Make sure your computer and browser are secure to prevent information from being tampered with or leaked.</li>
+        <li>Before withdrawing coins, please confirm whether the withdrawal address is safe and corresponds to the current currency. Once the address of a non‑TRC20 network is used, the platform cannot help to retrieve it. Please check carefully before withdrawing coins.</li>
+      </ol>
+    </main>
+  </div>
+
+  
+  <!-- Load Supabase configuration -->
+  <script src="sb-config.js"></script>
+  <!-- Wallet helpers -->
+  <script src="wallet.js"></script>
+  <script>
     (function() {{
       var qtyInput = document.getElementById('qtyInput');
       var feeVal = document.getElementById('feeVal');
@@ -192,6 +209,11 @@
   </script>
 
 
+  <!-- Authentication helpers -->
+  <script src="auth.js"></script>
+  <!-- Enforce login redirects -->
+  <script src="common-nav.js"></script>
+
 <style>
   .dropdown-menu{
     display:none;
@@ -221,6 +243,7 @@
     box-shadow: 0 0 0 1px rgba(0,255,255,0.35) inset;
   }
 </style>
+
 <script>
 (function(){
   const currencySelect = document.getElementById('currencySelect');
@@ -304,6 +327,8 @@
   applyCurrency(currencyValue.textContent.trim() || 'USDT');
 })();
 </script>
+
+
 <script>
 (function(){
   // --- Address book (local per user) ---
@@ -529,5 +554,5 @@
   loadSelected();
 })();
 </script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="wallet.js"></script><script src="common-nav.js"></script></body>
+</body>
 </html>

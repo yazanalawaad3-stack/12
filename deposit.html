@@ -334,18 +334,18 @@
 </div>
 <div class="header-title">Deposit</div>
 <div class="header-right">
-<a class="bill-link" href="bills.html">
-<img alt="Bills" class="bill-icon" src="images/bills-icon.png"/>
-</a>
+  <a href="bills.html" class="bill-link">
+    <img src="images/bills-icon.png" alt="Bills" class="bill-icon"/>
+  </a>
 </div>
 </div>
 <div class="main">
 <div class="section-label">Deposit Currency</div>
 <div class="currency-box">
-<div class="currency-left">
-<img alt="USDT" class="currency-icon" src="images/usdt.png"/>
-<span class="currency-text">USDT</span>
-</div>
+  <div class="currency-left">
+    <img src="images/usdt.png" alt="USDT" class="currency-icon"/>
+    <span class="currency-text">USDT</span>
+  </div>
 </div>
 <div class="section-label">Deposit Network</div>
 <div class="network-row">
@@ -355,7 +355,7 @@
 </div>
 <div class="qr-wrapper">
 <div class="qr-box">
-<img alt="Deposit QR Code" class="qr-inner" id="depositQr" src="images/deposit-qr.png"/>
+  <img src="images/deposit-qr.png" alt="Deposit QR Code" class="qr-inner" id="depositQr"/>
 </div>
 <div class="qr-caption">
           This address only supports deposits of BEP20 USDT
@@ -380,6 +380,9 @@
 </ol>
 </div>
 
+  <script src="sb-config.js"></script>
+<script src="auth.js"></script>
+<script src="common-nav.js"></script>
 
 
 <script>
@@ -521,6 +524,7 @@
     fetchDepositAddresses();
   })();
 </script>
+
 <script>
   (function () {
     if (!window.DemoWallet) return;
@@ -656,5 +660,5 @@
     startPolling();
   })();
 </script>
-</div><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="sb-config.js"></script><script src="auth.js"></script><script src="common-nav.js"></script></body>
+</body>
 </html>
